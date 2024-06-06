@@ -16,13 +16,13 @@ use tracing::{Level, Span};
 use super::service::{alpabet::AlpabetServiceInterface, katakana::KatakanaServiceInterface};
 use crate::infrastructure::service::{alpabet, katakana};
 
-pub async fn start<KatakanaService, AlpabetService>(
-    katakana_service: KatakanaService,
+pub async fn start<AlpabetService, KatakanaService>(
     alpabet_service: AlpabetService,
+    katakana_service: KatakanaService,
 ) -> Result<()>
 where
-    KatakanaService: KatakanaServiceInterface,
     AlpabetService: AlpabetServiceInterface,
+    KatakanaService: KatakanaServiceInterface,
 {
     let trace_layer = TraceLayer::new_for_http()
         .on_request(|request: &Request<_>, _span: &Span| {
