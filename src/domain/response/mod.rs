@@ -1,2 +1,2 @@
-pub(crate) mod alpabet;
+pub(crate) mod arpabet;
 pub(crate) mod katakana;

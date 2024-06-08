@@ -4,23 +4,23 @@ use axum::{
     Json,
 };
 
-use super::service::alpabet::AlpabetServiceInterface;
-use crate::domain::{processor::transcriber::Transcriber, response::alpabet::Alpabet};
+use super::service::arpabet::ArpabetServiceInterface;
+use crate::domain::{processor::transcriber::Transcriber, response::arpabet::Arpabet};
 
-pub(crate) struct AlpabetService<Processor> {
+pub(crate) struct ArpabetService<Processor> {
     transcriber: Processor,
 }
 
-impl<Processor> AlpabetServiceInterface for AlpabetService<Processor>
+impl<Processor> ArpabetServiceInterface for ArpabetService<Processor>
 where
     Processor: Transcriber + Send + Sync + 'static,
     <Processor as Transcriber>::Target: AsRef<str>,
 {
     async fn get(&self, word: String) -> Result<Response> {
-        let alpabet = self.transcriber.transcribe(&word)?;
-        let response = Json(Alpabet {
+        let arpabet = self.transcriber.transcribe(&word)?;
+        let response = Json(Arpabet {
             word,
-            pronunciation: alpabet.as_ref().to_string(),
+            pronunciation: arpabet.as_ref().to_string(),
         })
         .into_response();
 
@@ -28,7 +28,7 @@ where
     }
 }
 
-impl<Processor> AlpabetService<Processor> {
+impl<Processor> ArpabetService<Processor> {
     pub(crate) fn new(transcriber: Processor) -> Self {
         Self { transcriber }
     }

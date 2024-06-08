@@ -1,2 +1,2 @@
-pub mod alpabet;
+pub mod arpabet;
 pub mod katakana;

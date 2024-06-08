@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use crate::domain::{alpabet::Alpabet, processor::transcriber::Transcriber};
+use crate::domain::{arpabet::Arpabet, processor::transcriber::Transcriber};
 
 pub(crate) struct LexLookup;
 

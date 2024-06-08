@@ -13,15 +13,15 @@ use tokio::{
 use tower_http::trace::{DefaultOnFailure, TraceLayer};
 use tracing::{Level, Span};
 
-use super::service::{alpabet::AlpabetServiceInterface, katakana::KatakanaServiceInterface};
-use crate::infrastructure::service::{alpabet, katakana};
+use super::service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterface};
+use crate::infrastructure::service::{arpabet, katakana};
 
-pub async fn start<AlpabetService, KatakanaService>(
-    alpabet_service: AlpabetService,
+pub async fn start<ArpabetService, KatakanaService>(
+    arpabet_service: ArpabetService,
     katakana_service: KatakanaService,
 ) -> Result<()>
 where
-    AlpabetService: AlpabetServiceInterface,
+    ArpabetService: ArpabetServiceInterface,
     KatakanaService: KatakanaServiceInterface,
 {
     let trace_layer = TraceLayer::new_for_http()
@@ -33,16 +33,16 @@ where
         })
         .on_failure(DefaultOnFailure::new().level(Level::ERROR));
 
-    let alpabet = Router::new()
-        .route("/:word", get(alpabet::get))
-        .with_state(Arc::new(alpabet_service));
+    let arpabet = Router::new()
+        .route("/:word", get(arpabet::get))
+        .with_state(Arc::new(arpabet_service));
 
     let katakana = Router::new()
         .route("/:word", get(katakana::get))
         .with_state(Arc::new(katakana_service));
 
     let app = Router::new()
-        .nest("/alpabet", alpabet)
+        .nest("/arpabet", arpabet)
         .nest("/katakana", katakana)
         .layer(trace_layer);
 
