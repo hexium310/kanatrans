@@ -14,13 +14,13 @@ pub(crate) struct ArpabetService<Processor> {
 impl<Processor> ArpabetServiceInterface for ArpabetService<Processor>
 where
     Processor: Transcriber + Send + Sync + 'static,
-    <Processor as Transcriber>::Target: AsRef<str>,
+    <Processor as Transcriber>::Target: ToString,
 {
     async fn get(&self, word: String) -> Result<Response> {
         let arpabet = self.transcriber.transcribe(&word)?;
         let response = Json(Arpabet {
             word,
-            pronunciation: arpabet.as_ref().to_string(),
+            pronunciation: arpabet.to_string(),
         })
         .into_response();
 

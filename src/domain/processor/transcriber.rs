@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 pub(crate) trait Transcriber {
-    type Target: AsRef<str>;
+    type Target: ToString;
 
     fn transcribe(&self, word: &str) -> Result<Self::Target>;
 }

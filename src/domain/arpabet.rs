@@ -1,10 +1,16 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Serialize)]
-pub struct Arpabet(String);
+#[derive(Debug, Deserialize, Eq, Ord, PartialEq, PartialOrd, Serialize)]
+pub struct Arpabet(pub(crate) Vec<String>);
 
-impl AsRef<str> for Arpabet {
-    fn as_ref(&self) -> &str {
-        self.0.as_ref()
+impl ToString for Arpabet {
+    fn to_string(&self) -> String {
+        self.0.join("")
+    }
+}
+
+impl Arpabet {
+    pub(crate) fn new(arpabet: &[String]) -> Self {
+        Self(arpabet.to_owned())
     }
 }

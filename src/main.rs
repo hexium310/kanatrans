@@ -1,4 +1,7 @@
-use adapter::processor::{conversion_table::ConversionTable, lex_lookup::LexLookup};
+use adapter::processor::{
+    conversion_table::ConversionTable,
+    lex_lookup::{LexLookup, LexLookupExecutor},
+};
 use infrastructure::{arpabet::ArpabetService, katakana::KatakanaService};
 
 mod adapter;
@@ -7,7 +10,7 @@ mod infrastructure;
 
 #[tokio::main]
 async fn main() {
-    let arpabet_service = ArpabetService::new(LexLookup::new());
+    let arpabet_service = ArpabetService::new(LexLookup::new(LexLookupExecutor::new()));
     let katakana_service = KatakanaService::new(ConversionTable::new());
 
     match infrastructure::router::start(arpabet_service, katakana_service).await {
