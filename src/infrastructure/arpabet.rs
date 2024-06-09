@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use anyhow::Result;
 use axum::{
     response::{IntoResponse, Response},
@@ -14,13 +16,13 @@ pub(crate) struct ArpabetService<Processor> {
 impl<Processor> ArpabetServiceInterface for ArpabetService<Processor>
 where
     Processor: Transcriber + Send + Sync + 'static,
-    <Processor as Transcriber>::Target: ToString,
+    <Processor as Transcriber>::Target: Deref<Target = [String]>,
 {
     async fn get(&self, word: String) -> Result<Response> {
         let arpabet = self.transcriber.transcribe(&word)?;
         let response = Json(Arpabet {
             word,
-            pronunciation: arpabet.to_string(),
+            pronunciation: arpabet.to_vec(),
         })
         .into_response();
 
