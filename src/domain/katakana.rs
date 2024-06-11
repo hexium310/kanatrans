@@ -8,3 +8,9 @@ impl AsRef<str> for Katakana {
         self.0.as_ref()
     }
 }
+
+impl Katakana {
+    pub(crate) fn new(string: String) -> Self {
+        Self(string)
+    }
+}

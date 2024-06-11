@@ -5,7 +5,11 @@ use axum::{
 };
 
 use super::service::katakana::KatakanaServiceInterface;
-use crate::domain::{processor::transliterator::Transliterator, response::katakana::Katakana};
+use crate::domain::{
+    processor::transliterator::Transliterator,
+    request::katakana::Params,
+    response::katakana::Katakana,
+};
 
 pub(crate) struct KatakanaService<Processor> {
     transliterator: Processor,
@@ -16,8 +20,10 @@ where
     Processor: Transliterator + Send + Sync + 'static,
     <Processor as Transliterator>::Target: AsRef<str>,
 {
-    async fn get(&self, word: String) -> Result<Response> {
-        let katakana = self.transliterator.transliterate(&word)?;
+    async fn get(&self, Params { word, pronunciation }: Params) -> Result<Response> {
+        let pronunciation = pronunciation.split_whitespace().collect::<Vec<_>>();
+        let katakana = self.transliterator.transliterate(&pronunciation)?;
+
         let response = Json(Katakana {
             word,
             pronunciation: katakana.as_ref().to_string(),

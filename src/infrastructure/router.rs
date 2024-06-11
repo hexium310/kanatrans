@@ -38,7 +38,7 @@ where
         .with_state(Arc::new(arpabet_service));
 
     let katakana = Router::new()
-        .route("/:word", get(katakana::get))
+        .route("/", get(katakana::get))
         .with_state(Arc::new(katakana_service));
 
     let app = Router::new()
