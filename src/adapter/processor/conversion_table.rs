@@ -68,7 +68,7 @@ mod tests {
         mock_converter
             .expect_convert()
             .times(1)
-            .withf(|x| x == &["th", "r", "eh1", "sh", "ow1", "l", "d"])
+            .withf(|x| x == ["th", "r", "eh1", "sh", "ow1", "l", "d"])
             .returning(|_| Ok("スレショウルド".to_string()));
 
         let conversion_table = ConversionTable::new(mock_converter);
