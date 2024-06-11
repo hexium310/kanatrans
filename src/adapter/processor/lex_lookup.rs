@@ -30,9 +30,8 @@ where
             .split_whitespace()
             .map(ToString::to_string)
             .collect::<Vec<_>>();
-        let arpabet = Arpabet::new(&arpabet);
 
-        Ok(arpabet)
+        Ok(Arpabet::new(&arpabet))
     }
 }
 
@@ -81,15 +80,7 @@ mod tests {
 
         assert_eq!(
             arpabet,
-            Arpabet(vec![
-                "th".to_string(),
-                "r".to_string(),
-                "eh1".to_string(),
-                "sh".to_string(),
-                "ow1".to_string(),
-                "l".to_string(),
-                "d".to_string()
-            ])
+            Arpabet(["th", "r", "eh1", "sh", "ow1", "l", "d"].map(Into::into).to_vec())
         )
     }
 }

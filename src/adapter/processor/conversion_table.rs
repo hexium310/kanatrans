@@ -54,7 +54,30 @@ impl KatakanaConverter {
 #[cfg(test)]
 mod tests {
     use super::KatakanaConverter;
-    use crate::adapter::converter::Converter;
+    use crate::{
+        adapter::{
+            converter::{Converter, MockConverter},
+            processor::conversion_table::ConversionTable,
+        },
+        domain::{katakana::Katakana, processor::transliterator::Transliterator},
+    };
+
+    #[test]
+    fn transliterate() {
+        let mut mock_converter = MockConverter::new();
+        mock_converter
+            .expect_convert()
+            .times(1)
+            .withf(|x| x == &["th", "r", "eh1", "sh", "ow1", "l", "d"])
+            .returning(|_| Ok("スレショウルド".to_string()));
+
+        let conversion_table = ConversionTable::new(mock_converter);
+        let katakana = conversion_table
+            .transliterate(&["th", "r", "eh1", "sh", "ow1", "l", "d"])
+            .unwrap();
+
+        assert_eq!(katakana, Katakana("スレショウルド".to_string()));
+    }
 
     #[test]
     fn convert() {
@@ -62,19 +85,19 @@ mod tests {
 
         #[rustfmt::skip]
         let threshold = converter
-            .convert(&["th", "r", "eh1", "sh", "ow1", "l", "d"].map(Into::into))
+            .convert(&["th", "r", "eh1", "sh", "ow1", "l", "d"])
             .unwrap();
         assert_eq!(threshold, "スレショウルド");
 
         #[rustfmt::skip]
         let akabane = converter
-            .convert(&["g", "eh1", "t", "s"].map(Into::into))
+            .convert(&["g", "eh1", "t", "s"])
             .unwrap();
         assert_eq!(akabane, "ゲツ");
 
         #[rustfmt::skip]
         let akabane = converter
-            .convert(&["k", "r", "iy0", "ey1", "t"].map(Into::into))
+            .convert(&["k", "r", "iy0", "ey1", "t"])
             .unwrap();
         assert_eq!(akabane, "クリーエイト");
     }

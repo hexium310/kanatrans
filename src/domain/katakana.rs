@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Serialize)]
-pub struct Katakana(String);
+#[derive(Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct Katakana(pub(crate) String);
 
 impl AsRef<str> for Katakana {
     fn as_ref(&self) -> &str {
