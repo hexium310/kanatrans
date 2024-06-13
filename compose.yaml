@@ -1,0 +1,14 @@
+services:
+  kanatrans:
+    build:
+      context: .
+      target: development
+    volumes:
+      - type: bind
+        source: .
+        target: /usr/src
+    command: cargo run
+    environment:
+      KANATRANS_PORT: 8080
+    ports:
+      - ${KANATRANS_PORT-8080}:${KANATRANS_PORT-8080}
