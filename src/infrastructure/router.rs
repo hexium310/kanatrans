@@ -1,6 +1,6 @@
-use std::{sync::Arc, time::Duration};
+use std::{net::Ipv6Addr, sync::Arc, time::Duration};
 
-use anyhow::{Context, Result};
+use anyhow::{Context, Error, Result};
 use axum::{
     http::{Request, Response},
     routing::get,
@@ -33,6 +33,11 @@ where
         })
         .on_failure(DefaultOnFailure::new().level(Level::ERROR));
 
+    let port = std::env::var("KANATRANS_PORT")
+        .map_err(Error::from)
+        .and_then(|port| port.parse::<u16>().map_err(Error::from))
+        .context("KANATRANS_PORT should be set port")?;
+
     let arpabet = Router::new()
         .route("/:word", get(arpabet::get))
         .with_state(Arc::new(arpabet_service));
@@ -46,7 +51,7 @@ where
         .nest("/katakana", katakana)
         .layer(trace_layer);
 
-    let listener = TcpListener::bind("0.0.0.0:3000").await?;
+    let listener = TcpListener::bind((Ipv6Addr::UNSPECIFIED, port)).await?;
 
     tracing::debug!(
         "listening on {}",
