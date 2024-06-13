@@ -6,7 +6,7 @@ use axum::{
     response::Response,
 };
 
-use crate::domain::{errors::KatakanaGetFailed, request::katakana::Params};
+use crate::domain::{errors::ApiError, request::katakana::Params};
 
 pub(crate) trait KatakanaServiceInterface: Send + Sync + 'static {
     fn get(&self, params: Params) -> impl Future<Output = Result<Response>> + Send;
@@ -15,9 +15,9 @@ pub(crate) trait KatakanaServiceInterface: Send + Sync + 'static {
 pub(crate) async fn get<KatakanaService>(
     State(katakana_service): State<Arc<KatakanaService>>,
     Query(params): Query<Params>,
-) -> std::result::Result<Response, KatakanaGetFailed>
+) -> std::result::Result<Response, ApiError>
 where
     KatakanaService: KatakanaServiceInterface,
 {
-    Ok(katakana_service.get(params).await?)
+    Ok(katakana_service.get(params).await.map_err(ApiError::KatakanaGetFailed)?)
 }

@@ -6,7 +6,7 @@ use axum::{
     response::Response,
 };
 
-use crate::domain::errors::ArpabetGetFailed;
+use crate::domain::errors::ApiError;
 
 pub(crate) trait ArpabetServiceInterface: Send + Sync + 'static {
     fn get(&self, word: String) -> impl Future<Output = Result<Response>> + Send;
@@ -15,9 +15,9 @@ pub(crate) trait ArpabetServiceInterface: Send + Sync + 'static {
 pub(crate) async fn get<ArpabetService>(
     State(arpabet_service): State<Arc<ArpabetService>>,
     Path(word): Path<String>,
-) -> std::result::Result<Response, ArpabetGetFailed>
+) -> std::result::Result<Response, ApiError>
 where
     ArpabetService: ArpabetServiceInterface,
 {
-    Ok(arpabet_service.get(word).await?)
+    Ok(arpabet_service.get(word).await.map_err(ApiError::ArpabetGetFailed)?)
 }

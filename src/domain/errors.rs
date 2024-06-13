@@ -1,44 +1,35 @@
 use anyhow::Error;
-use axum::response::{IntoResponse, Response};
+use axum::{response::{IntoResponse, Response}, Json};
 use hyper::StatusCode;
+use serde::Serialize;
 
-pub(crate) struct ArpabetGetFailed(Error);
-pub(crate) struct KatakanaGetFailed(Error);
-
-impl<E> From<E> for ArpabetGetFailed
-where
-    E: Into<Error>,
-{
-    fn from(err: E) -> Self {
-        ArpabetGetFailed(err.into())
-    }
+pub(crate) enum ApiError {
+    ArpabetGetFailed(Error),
+    KatakanaGetFailed(Error)
 }
 
-impl<E> From<E> for KatakanaGetFailed
-where
-    E: Into<Error>,
-{
-    fn from(err: E) -> Self {
-        KatakanaGetFailed(err.into())
-    }
-}
-
-impl IntoResponse for ArpabetGetFailed {
+impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
-        (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            format!("Internal Server Error: {}", self.0),
-        )
-            .into_response()
-    }
-}
+        #[derive(Debug, Serialize)]
+        struct ErrorResponse {
+            message: String,
+        }
 
-impl IntoResponse for KatakanaGetFailed {
-    fn into_response(self) -> Response {
-        (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            format!("Internal Server Error: {}", self.0),
-        )
-            .into_response()
+        let (status, message) = match self {
+            ApiError::ArpabetGetFailed(err) => {
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    err.to_string(),
+                )
+            },
+            ApiError::KatakanaGetFailed(err) => {
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    err.to_string(),
+                )
+            },
+        };
+
+        (status, Json(ErrorResponse { message })).into_response()
     }
 }
