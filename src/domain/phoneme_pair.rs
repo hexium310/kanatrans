@@ -473,79 +473,95 @@ impl<'a> PhonemePair<'a> {
 
 #[cfg(test)]
 mod tests {
-    use super::{PhonemePair, PhonemePairs};
+    mod phoneme_pairs_from {
+        use pretty_assertions::assert_eq;
 
-    #[test]
-    fn phoneme_pairs_from() {
-        let arpabet = ["th", "r", "eh1", "sh", "ow1", "l", "d"].map(Into::into);
-        let arpabet = arpabet.as_slice();
-        let phoneme_pairs = PhonemePairs::from(arpabet);
-        assert_eq!(
-            phoneme_pairs,
-            PhonemePairs(vec![
-                PhonemePair {
-                    consonant: Some("th"),
-                    vowel: None,
-                },
-                PhonemePair {
-                    consonant: Some("r"),
-                    vowel: Some("eh"),
-                },
-                PhonemePair {
-                    consonant: Some("sh"),
-                    vowel: Some("ow"),
-                },
-                PhonemePair {
-                    consonant: Some("l"),
-                    vowel: None,
-                },
-                PhonemePair {
-                    consonant: Some("d"),
-                    vowel: None,
-                },
-            ])
-        );
+        use crate::domain::phoneme_pair::{PhonemePair, PhonemePairs};
 
-        let arpabet = ["g", "eh1", "t", "s"].map(Into::into);
-        let arpabet = arpabet.as_slice();
-        let phoneme_pairs = PhonemePairs::from(arpabet);
-        assert_eq!(
-            phoneme_pairs,
-            PhonemePairs(vec![
-                PhonemePair {
-                    consonant: Some("g"),
-                    vowel: Some("eh"),
-                },
-                PhonemePair {
+        #[test]
+        fn phoneme_pairs_from() {
+            let arpabet = ["th", "r", "eh1", "sh", "ow1", "l", "d"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![
+                    PhonemePair {
+                        consonant: Some("th"),
+                        vowel: None,
+                    },
+                    PhonemePair {
+                        consonant: Some("r"),
+                        vowel: Some("eh"),
+                    },
+                    PhonemePair {
+                        consonant: Some("sh"),
+                        vowel: Some("ow"),
+                    },
+                    PhonemePair {
+                        consonant: Some("l"),
+                        vowel: None,
+                    },
+                    PhonemePair {
+                        consonant: Some("d"),
+                        vowel: None,
+                    },
+                ])
+            );
+        }
+
+        #[test]
+        fn ts() {
+            let arpabet = ["t", "s"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
                     consonant: Some("ts"),
                     vowel: None,
-                },
-            ])
-        );
+                },])
+            );
+        }
 
-        let arpabet = ["k", "r", "iy0", "ey1", "t"].map(Into::into);
-        let arpabet = arpabet.as_slice();
-        let phoneme_pairs = PhonemePairs::from(arpabet);
-        assert_eq!(
-            phoneme_pairs,
-            PhonemePairs(vec![
-                PhonemePair {
-                    consonant: Some("k"),
-                    vowel: None,
-                },
-                PhonemePair {
-                    consonant: Some("r"),
-                    vowel: Some("iy"),
-                },
-                PhonemePair {
-                    consonant: None,
-                    vowel: Some("ey"),
-                },
-                PhonemePair {
-                    consonant: Some("t"),
-                    vowel: None,
-                },
-            ])
-        );
+        #[test]
+        fn two_or_more_vowels() {
+            let arpabet = ["iy0", "ey1"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![
+                    PhonemePair {
+                        consonant: None,
+                        vowel: Some("iy"),
+                    },
+                    PhonemePair {
+                        consonant: None,
+                        vowel: Some("ey"),
+                    },
+                ])
+            );
+        }
+
+        #[test]
+        fn two_or_more_vowels_after_consonant() {
+            let arpabet = ["r", "iy0", "ey1"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![
+                    PhonemePair {
+                        consonant: Some("r"),
+                        vowel: Some("iy"),
+                    },
+                    PhonemePair {
+                        consonant: None,
+                        vowel: Some("ey"),
+                    },
+                ])
+            );
+        }
     }
 }
