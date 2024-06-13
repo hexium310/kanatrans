@@ -38,6 +38,14 @@ features = ["macros", "net", "rt-multi-thread", "signal"]
 version = "0.5.2"
 features = ["trace"]
 
+[dependencies.time]
+version = "0.3.36"
+features = ["macros"]
+
+[dependencies.tracing-subscriber]
+version = "0.3.18"
+features = ["env-filter", "time"]
+
 [dependencies.tracing]
 version = "0.1.40"
 
