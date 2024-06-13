@@ -413,6 +413,7 @@ impl<'a> From<&'a [&str]> for PhonemePairs<'a> {
                 phoneme if CONSONANTS.contains_key(phoneme) => {
                     let consonant_ts_ds = previous_consonant
                         .filter(|_| phoneme == "s")
+                        .filter(|_| previous_vowel.is_none())
                         .and_then(|consonant| CONSONANT_TS_DS.get(&consonant))
                         .inspect(|_| {
                             accumulator.truncate(accumulator.len() - 1);
@@ -559,6 +560,26 @@ mod tests {
                     PhonemePair {
                         consonant: None,
                         vowel: Some("ey"),
+                    },
+                ])
+            );
+        }
+
+        #[test]
+        fn s_after_d_with_vowel() {
+            let arpabet = ["d", "er", "s"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![
+                    PhonemePair {
+                        consonant: Some("d"),
+                        vowel: Some("er"),
+                    },
+                    PhonemePair {
+                        consonant: Some("s"),
+                        vowel: None,
                     },
                 ])
             );
