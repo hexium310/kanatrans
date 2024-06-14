@@ -21,7 +21,7 @@ RUN --mount=type=cache,id=api:/usr/local/cargo/registry,target=/usr/local/cargo/
     && cp target/release/kanatrans /usr/local/bin/kanatrans
 
 FROM scratch AS kanatrans
-LABEL io.github.hexium310.seitai.app=kanatrans
+LABEL io.github.hexium310.kanatrans.app=kanatrans
 LABEL org.opencontainers.image.source=https://github.com/hexium310/kanatrans
 COPY --from=runtime /lib/x86_64-linux-gnu/libc.so* /lib/x86_64-linux-gnu/
 COPY --from=runtime /lib/x86_64-linux-gnu/libgcc_s.so* /lib/x86_64-linux-gnu/
