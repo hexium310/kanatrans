@@ -15,8 +15,7 @@ pub(crate) struct ArpabetService<Processor> {
 
 impl<Processor> ArpabetServiceInterface for ArpabetService<Processor>
 where
-    Processor: Transcriber + Send + Sync + 'static,
-    <Processor as Transcriber>::Target: Deref<Target = [String]>,
+    Processor: Transcriber<Target: Deref<Target = [String]>> + Send + Sync + 'static,
 {
     async fn get(&self, word: String) -> Result<Response> {
         let arpabet = self.transcriber.transcribe(&word)?;

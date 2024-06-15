@@ -17,8 +17,7 @@ pub(crate) struct KatakanaService<Processor> {
 
 impl<Processor> KatakanaServiceInterface for KatakanaService<Processor>
 where
-    Processor: Transliterator + Send + Sync + 'static,
-    <Processor as Transliterator>::Target: AsRef<str>,
+    Processor: Transliterator<Target: Into<String>> + Send + Sync + 'static,
 {
     async fn get(&self, Params { word, pronunciation }: Params) -> Result<Response> {
         let pronunciation = pronunciation.split_whitespace().collect::<Vec<_>>();
@@ -26,7 +25,7 @@ where
 
         let response = Json(Katakana {
             word,
-            pronunciation: katakana.as_ref().to_string(),
+            pronunciation: katakana.into(),
         })
         .into_response();
 

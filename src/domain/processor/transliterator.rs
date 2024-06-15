@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 pub(crate) trait Transliterator {
-    type Target: AsRef<str>;
+    type Target: Into<String>;
 
     fn transliterate(&self, pronunciation: &[&str]) -> Result<Self::Target>;
 }
