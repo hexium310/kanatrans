@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1
-FROM rust:1.78-slim-bookworm AS runtime
+FROM rust:1.79-slim-bookworm AS runtime
 WORKDIR /usr/src
 COPY scripts/lex_lookup.sh .
 RUN --mount=type=cache,id=api:/var/cache/apt,target=/var/cache/apt \
