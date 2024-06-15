@@ -1,6 +1,6 @@
 use std::process::Command;
 
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 
 use crate::{
     adapter::command::Executor,
@@ -22,14 +22,21 @@ where
     fn transcribe(&self, word: &str) -> Result<Self::Target> {
         let output = self.executor.execute(word)?;
 
+        let convert_error = anyhow!("cannot convert to ARPAbet");
+
         let arpabet = output
             .lines()
             .next()
+            .ok_or(&convert_error)
             .unwrap()
             .trim_matches(|char| ['(', ')'].contains(&char))
             .split_whitespace()
             .map(ToString::to_string)
             .collect::<Vec<_>>();
+
+        if arpabet.first().unwrap() == "[null]" {
+            return Err(convert_error);
+        }
 
         Ok(Arpabet::new(&arpabet))
     }
