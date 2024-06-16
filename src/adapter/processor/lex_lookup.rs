@@ -44,7 +44,7 @@ where
 
 impl Executor for LexLookupExecutor {
     fn execute(&self, word: &str) -> Result<String> {
-        let output = Command::new("lex_lookup").arg(word).output()?;
+        let output = Command::new("lex_lookup").arg(word.to_lowercase()).output()?;
 
         Ok(String::from_utf8_lossy(&output.stdout).to_string())
     }
