@@ -165,8 +165,8 @@ pub(crate) static CONSONANTS: Lazy<Consonants> = Lazy::new(|| {
         (
             "ng",
             ConsonantPattern {
-                with_vowel: ["ンガ", "ンギ", "ング", "ンゲ", "ンゴ"],
-                unit: "ング",
+                with_vowel: ["ン", "ン", "ン", "ン", "ン"],
+                unit: "ン",
             },
         ),
         (
