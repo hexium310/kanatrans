@@ -13,8 +13,8 @@ impl Deref for Arpabet {
     }
 }
 
-impl Arpabet {
-    pub(crate) fn new(arpabet: &[String]) -> Self {
-        Self(arpabet.to_owned())
+impl From<Vec<String>> for Arpabet {
+    fn from(arpabet: Vec<String>) -> Self {
+        Self(arpabet)
     }
 }

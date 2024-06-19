@@ -1,15 +1,12 @@
 # syntax = docker/dockerfile:1
 FROM rust:1.79-slim-bookworm AS runtime
 WORKDIR /usr/src
-COPY scripts/lex_lookup.sh .
 RUN --mount=type=cache,id=api:/var/cache/apt,target=/var/cache/apt \
     --mount=type=cache,id=api:/var/lib/apt/lists,target=/var/lib/apt/lists \
     apt-get update && apt-get install --no-install-recommends -y \
-    curl \
+    clang \
     make \
-    && rm -rf /var/lib/apt/lists/* \
-    && sh lex_lookup.sh \
-    && cp lex_lookup /usr/local/bin/lex_lookup
+    && rm -rf /var/lib/apt/lists/*
 
 FROM runtime AS development
 
@@ -27,6 +24,5 @@ COPY --from=runtime /lib/x86_64-linux-gnu/libc.so* /lib/x86_64-linux-gnu/
 COPY --from=runtime /lib/x86_64-linux-gnu/libgcc_s.so* /lib/x86_64-linux-gnu/
 COPY --from=runtime /lib/x86_64-linux-gnu/libm.so* /lib/x86_64-linux-gnu/
 COPY --from=runtime /lib64/ld-linux-x86-64.so* /lib64/
-COPY --from=runtime /usr/local/bin/lex_lookup /usr/local/bin/lex_lookup
 COPY --from=builder /usr/local/bin/kanatrans /usr/local/bin/kanatrans
 ENTRYPOINT ["kanatrans"]

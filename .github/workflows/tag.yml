@@ -18,6 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          submodules: true
           token: ${{ secrets.TAG_CREATION_GITHUB_TOKEN }}
       - name: Create and push tag
         run: |

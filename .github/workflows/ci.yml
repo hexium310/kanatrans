@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: Set up rust-toolchain
         uses: dtolnay/rust-toolchain@stable
       - name: Cache dependencies
