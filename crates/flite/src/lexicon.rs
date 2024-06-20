@@ -1,6 +1,6 @@
 use std::{error::Error, ffi::{CStr, CString}, ptr::null};
 
-use flite_sys::{cmu_lex_init, cst_lexicon, delete_lexicon, lex_lookup, val_string};
+use flite_sys::{cmu_lex_init, cst_lexicon, cst_lts_rules, delete_lexicon, lex_lookup, val_string};
 use once_cell::sync::Lazy;
 
 use crate::{lts::Rules, Value};
@@ -46,9 +46,7 @@ impl Lexicon {
     }
 
     pub fn lts_rule_set(&self) -> Option<Rules> {
-        unsafe {
-            self.0.as_ref().map(|l| Rules::from_ptr(l.lts_rule_set))
-        }
+        unsafe { (*self.0).lts_rule_set.as_mut().map(|l| Rules::from_ptr(l)) }
     }
 }
 
