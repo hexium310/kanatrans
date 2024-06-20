@@ -1,6 +1,6 @@
-use std::{error::Error, ffi::{CStr, CString}};
+use std::{error::Error, ffi::CString};
 
-use flite_sys::{cst_lts_rules, lts_apply, val_string};
+use flite_sys::{cst_lts_rules, lts_apply};
 
 use crate::Value;
 
@@ -23,7 +23,7 @@ impl Rules {
 
             let phones = Value::from_ptr(lts_apply(word, feats, self.0));
             for phone in &phones {
-                let lex = CStr::from_ptr(val_string(phone)).to_str()?;
+                let lex = phone.as_str()?;
                 lexs.push(lex.to_string());
             }
         }

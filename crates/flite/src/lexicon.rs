@@ -1,6 +1,6 @@
-use std::{error::Error, ffi::{CStr, CString}, ptr::null};
+use std::{error::Error, ffi::CString, ptr::null};
 
-use flite_sys::{cmu_lex_init, cst_lexicon, cst_lts_rules, delete_lexicon, lex_lookup, val_string};
+use flite_sys::{cmu_lex_init, cst_lexicon, delete_lexicon, lex_lookup};
 use once_cell::sync::Lazy;
 
 use crate::{lts::Rules, Value};
@@ -34,7 +34,7 @@ impl Lexicon {
 
             let phones = Value::from_ptr(lex_lookup(self.0, word, pos, null()));
             for phone in &phones {
-                let lex = CStr::from_ptr(val_string(phone)).to_str()?;
+                let lex = phone.as_str()?;
                 lexs.push(lex.to_string());
             }
         }
