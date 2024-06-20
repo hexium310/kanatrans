@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::{bail, Result};
 use flite::lexicon::LEXICON;
 
 use crate::{
@@ -27,9 +27,9 @@ where
 impl Executor for LexLookupExecutor {
     fn execute(&self, word: &str) -> Result<Vec<String>> {
         match LEXICON.lookup(&word.to_lowercase(), None) {
-            Ok(lexs) if lexs.is_empty() => Err(anyhow!("cannot convert to ARPAbet")),
+            Ok(lexs) if lexs.is_empty() => bail!("cannot convert to ARPAbet"),
             Ok(lexs) => Ok(lexs),
-            Err(e) => Err(anyhow!(e)),
+            Err(e) => bail!(e),
         }
     }
 }
