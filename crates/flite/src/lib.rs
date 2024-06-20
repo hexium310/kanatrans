@@ -1,4 +1,4 @@
-use std::{ffi::CStr, str::Utf8Error};
+use std::{ffi::CStr, marker::PhantomData, str::Utf8Error};
 
 use flite_sys::{cst_val, cst_val_consp, delete_val, delete_val_list, val_car, val_cdr, val_string};
 
@@ -7,7 +7,10 @@ pub mod lts;
 
 pub struct Value(*mut cst_val);
 
-pub struct Val<'a>(&'a cst_val);
+pub struct Val<'a> {
+    ptr: *const cst_val,
+    _phantom: PhantomData<&'a ()>,
+}
 
 pub struct Iter<'a>(Val<'a>);
 
@@ -35,23 +38,21 @@ impl Value {
     }
 
     pub const fn iter(&self) -> Iter<'_> {
-        unsafe { Iter(Val(&*self.0.cast_const())) }
+        Iter(Val::from_ptr(self.0.cast_const()))
     }
 }
 
 impl Val<'_> {
+    pub const fn from_ptr<'a>(ptr: *const cst_val) -> Val<'a> {
+        Val { ptr, _phantom: PhantomData }
+    }
+
     pub const fn as_ptr(&self) -> *const cst_val {
-        self.0
+        self.ptr
     }
 
     pub fn as_str(&self) -> Result<&str, Utf8Error> {
-        unsafe { CStr::from_ptr(val_string(self.0)).to_str() }
-    }
-}
-
-impl<'a> From<&'a cst_val> for Val<'a> {
-    fn from(value: &'a cst_val) -> Self {
-        Val(value)
+        unsafe { CStr::from_ptr(val_string(self.ptr)).to_str() }
     }
 }
 
@@ -62,8 +63,8 @@ impl<'a> Iterator for Iter<'a> {
         unsafe {
             match self.0.as_ptr().as_ref() {
                 Some(p) => {
-                    self.0 = Val::from(&*val_cdr(p));
-                    Some(Val::from(&*val_car(p)))
+                    self.0 = Val::from_ptr(val_cdr(p));
+                    Some(Val::from_ptr(val_car(p)))
                 },
                 None => None,
             }
