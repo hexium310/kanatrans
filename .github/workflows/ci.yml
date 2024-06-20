@@ -20,12 +20,13 @@ jobs:
           cache-on-failure: true
       - name: Check apps errors
         run: |
-          cargo check
+          cargo check --features=vendored
       - name: Test
         run: |
-          cargo test
+          cargo test --features=vendored
       - name: Run clippy
         uses: giraffate/clippy-action@v1
         with:
+          clippy_flags: --features=vendored
           reporter: 'github-pr-review'
           github_token: ${{ secrets.GITHUB_TOKEN }}
