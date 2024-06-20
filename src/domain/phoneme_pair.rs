@@ -567,9 +567,22 @@ impl<'a> From<&'a [&str]> for PhonemePairs<'a> {
                     PhonemePair::new(consonant_cluster.or(Some(phoneme)), None)
                 },
                 phoneme if VOWELS.contains_key(phoneme) => {
-                    let previous_consonant = previous_consonant.filter(|_| previous_vowel.is_none()).inspect(|_| {
-                        accumulator.truncate(accumulator.len() - 1);
-                    });
+                    let previous_consonant = match (previous_consonant, previous_vowel) {
+                        (previous_consonant, Some(previous_vowel)) if previous_vowel == "er" => {
+                            accumulator.truncate(accumulator.len() - 1);
+
+                            let previous_pair = PhonemePair::new(previous_consonant, Some("eh"));
+                            accumulator.push(previous_pair);
+
+                            Some("r")
+                        },
+                        (Some(previous_consonant), None) => {
+                            accumulator.truncate(accumulator.len() - 1);
+
+                            Some(previous_consonant)
+                        },
+                        _ => None,
+                    };
 
                     PhonemePair::new(previous_consonant, Some(phoneme))
                 },
@@ -893,6 +906,26 @@ mod tests {
                     PhonemePair {
                         consonant: Some("s"),
                         vowel: None,
+                    },
+                ])
+            );
+        }
+
+        #[test]
+        fn er_before_vowel() {
+            let arpabet = ["n", "er", "ax"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![
+                    PhonemePair {
+                        consonant: Some("n"),
+                        vowel: Some("eh"),
+                    },
+                    PhonemePair {
+                        consonant: Some("r"),
+                        vowel: Some("ax"),
                     },
                 ])
             );
