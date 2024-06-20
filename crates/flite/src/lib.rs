@@ -23,8 +23,8 @@ impl Drop for Value {
 }
 
 impl Value {
-    pub const fn from_ptr(ptr: *mut cst_val) -> Value {
-        Value(ptr)
+    pub const fn from_ptr(ptr: *mut cst_val) -> Self {
+        Self(ptr)
     }
 
     pub const fn as_ptr(&self) -> *mut cst_val {

@@ -7,7 +7,7 @@ use crate::Value;
 pub struct Rules(*mut cst_lts_rules);
 
 impl Rules {
-    pub const fn from_ptr(rules: *mut cst_lts_rules) -> Rules {
+    pub const fn from_ptr(rules: *mut cst_lts_rules) -> Self {
         Self(rules)
     }
 
