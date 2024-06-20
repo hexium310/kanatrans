@@ -2,6 +2,9 @@
 name = "flite"
 edition = "2021"
 
+[features]
+vendored = ["flite-sys/vendored"]
+
 [dependencies.flite-sys]
 path = "../flite-sys"
 

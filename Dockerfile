@@ -14,7 +14,7 @@ FROM runtime AS builder
 COPY . .
 RUN --mount=type=cache,id=api:/usr/local/cargo/registry,target=/usr/local/cargo/registry \
     --mount=type=cache,id=api:/usr/src/target,target=/usr/src/target \
-    cargo build --release \
+    cargo build --release --features=vendored \
     && cp target/release/kanatrans /usr/local/bin/kanatrans
 
 FROM scratch AS kanatrans

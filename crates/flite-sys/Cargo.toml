@@ -2,8 +2,12 @@
 name = "flite-sys"
 edition = "2021"
 
+[features]
+vendored = ["flite-src"]
+
 [build-dependencies.bindgen]
 version = "0.69.4"
 
 [build-dependencies.flite-src]
+optional = true
 path = "../flite-src"

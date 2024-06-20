@@ -54,6 +54,7 @@ impl Build {
         let mut configure = Command::new("./configure");
         configure
             .arg(format!("--prefix={}", &install_dir.to_str().unwrap()))
+            .arg("--with-audio=oss")
             .current_dir(&inner_dir);
         self.run_command(configure, "configuring flite");
 

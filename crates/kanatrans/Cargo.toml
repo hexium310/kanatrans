@@ -3,6 +3,9 @@ name = "kanatrans"
 version = "0.1.1"
 edition = "2021"
 
+[features]
+vendored = ["flite/vendored"]
+
 [dependencies.anyhow]
 version = "1.0.86"
 
