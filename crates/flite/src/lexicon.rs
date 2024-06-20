@@ -26,7 +26,7 @@ impl Lexicon {
         let mut lexs = vec![];
 
         let word = CString::new(word)?;
-        let pos = pos.map(|pos| CString::new(pos)).transpose()?;
+        let pos = pos.map(CString::new).transpose()?;
 
         unsafe {
             let word = word.as_ptr();
