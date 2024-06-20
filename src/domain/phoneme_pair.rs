@@ -568,7 +568,7 @@ impl<'a> From<&'a [&str]> for PhonemePairs<'a> {
                 },
                 phoneme if VOWELS.contains_key(phoneme) => {
                     let previous_consonant = match (previous_consonant, previous_vowel) {
-                        (previous_consonant, Some(previous_vowel)) if previous_vowel == "er" => {
+                        (previous_consonant, Some("er")) => {
                             accumulator.truncate(accumulator.len() - 1);
 
                             let previous_pair = PhonemePair::new(previous_consonant, Some("eh"));
