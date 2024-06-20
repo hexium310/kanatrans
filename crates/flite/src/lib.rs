@@ -10,10 +10,9 @@ pub struct Iter(*const cst_val);
 impl Drop for Value {
     fn drop(&mut self) {
         unsafe {
-            if cst_val_consp(self.0) > 0 {
-                delete_val_list(self.0);
-            } else {
-                delete_val(self.0);
+            match cst_val_consp(self.0) {
+                0 => delete_val(self.0),
+                _ => delete_val_list(self.0),
             }
         }
     }
