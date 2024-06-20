@@ -11,14 +11,14 @@ pub(crate) static CONSONANTS: Lazy<Consonants> = Lazy::new(|| {
         (
             "p",
             ConsonantPattern {
-                with_vowel: ["パ", "ピ", "ピュ", "ペ", "ポ"],
+                with_vowel: ["パ", "ピ", "プ", "ペ", "ポ"],
                 unit: "プ",
             },
         ),
         (
             "b",
             ConsonantPattern {
-                with_vowel: ["バ", "ビ", "ビュ", "ベ", "ボ"],
+                with_vowel: ["バ", "ビ", "ブ", "ベ", "ボ"],
                 unit: "ブ",
             },
         ),
@@ -152,7 +152,28 @@ pub(crate) static CONSONANTS: Lazy<Consonants> = Lazy::new(|| {
             "m",
             ConsonantPattern {
                 with_vowel: ["マ", "ミ", "ム", "メ", "モ"],
-                unit: "ン",
+                unit: "ム",
+            },
+        ),
+        (
+            "mb",
+            ConsonantPattern {
+                with_vowel: ["ンバ", "ンビ", "ンビュ", "ンベ", "ンボ"],
+                unit: "ンブ",
+            },
+        ),
+        (
+            "mm",
+            ConsonantPattern {
+                with_vowel: ["ンマ", "ンミ", "ンム", "ンメ", "ンモ"],
+                unit: "ンム",
+            },
+        ),
+        (
+            "mp",
+            ConsonantPattern {
+                with_vowel: ["ンパ", "ンピ", "ンピュ", "ンペ", "ンポ"],
+                unit: "ンプ",
             },
         ),
         (
@@ -197,11 +218,125 @@ pub(crate) static CONSONANTS: Lazy<Consonants> = Lazy::new(|| {
                 unit: "ユ",
             },
         ),
+        (
+            "by",
+            ConsonantPattern {
+                with_vowel: ["ビャ", "ビ", "ビュ", "ビェ", "ビョ"],
+                unit: "ビュ",
+            },
+        ),
+        (
+            "fy",
+            ConsonantPattern {
+                with_vowel: ["ヒャ", "ヒ", "フュ", "ヒェ", "ヒョ"],
+                unit: "フュ",
+            },
+        ),
+        (
+            "gy",
+            ConsonantPattern {
+                with_vowel: ["ギャ", "ギ", "ギュ", "ギェ", "ギョ"],
+                unit: "ギュ",
+            },
+        ),
+        (
+            "ky",
+            ConsonantPattern {
+                with_vowel: ["キャ", "キ", "キュ", "キェ", "キョ"],
+                unit: "キュ",
+            },
+        ),
+        (
+            "ly",
+            ConsonantPattern {
+                with_vowel: ["リャ", "リ", "リュ", "リェ", "リョ"],
+                unit: "リュ",
+            },
+        ),
+        (
+            "my",
+            ConsonantPattern {
+                with_vowel: ["ミャ", "ミ", "ミュ", "ミェ", "ミョ"],
+                unit: "ミュ",
+            },
+        ),
+        (
+            "py",
+            ConsonantPattern {
+                with_vowel: ["ピャ", "ピ", "ピュ", "ピェ", "ピョ"],
+                unit: "ピュ",
+            },
+        ),
     ]
     .into()
 });
 
-pub(crate) static CONSONANT_TS_DS: Lazy<ConsonantTsDs> = Lazy::new(|| [("t", "ts"), ("d", "ds")].into());
+pub(crate) static CONSONANT_CLUSTERS: Lazy<ConsonantClusters> = Lazy::new(|| {
+    let consonant_clusters = vec![
+        ConsonantCluster {
+            beginning: "t",
+            followings: "s",
+            cluster: "ts",
+        },
+        ConsonantCluster {
+            beginning: "d",
+            followings: "s",
+            cluster: "ds",
+        },
+        ConsonantCluster {
+            beginning: "m",
+            followings: "b",
+            cluster: "mb",
+        },
+        ConsonantCluster {
+            beginning: "m",
+            followings: "m",
+            cluster: "mm",
+        },
+        ConsonantCluster {
+            beginning: "m",
+            followings: "p",
+            cluster: "mp",
+        },
+        ConsonantCluster {
+            beginning: "b",
+            followings: "y",
+            cluster: "by",
+        },
+        ConsonantCluster {
+            beginning: "f",
+            followings: "y",
+            cluster: "fy",
+        },
+        ConsonantCluster {
+            beginning: "g",
+            followings: "y",
+            cluster: "gy",
+        },
+        ConsonantCluster {
+            beginning: "k",
+            followings: "y",
+            cluster: "ky",
+        },
+        ConsonantCluster {
+            beginning: "l",
+            followings: "y",
+            cluster: "ly",
+        },
+        ConsonantCluster {
+            beginning: "m",
+            followings: "y",
+            cluster: "my",
+        },
+        ConsonantCluster {
+            beginning: "p",
+            followings: "y",
+            cluster: "py",
+        },
+    ];
+
+    ConsonantClusters(consonant_clusters)
+});
 
 pub(crate) static VOWELS: Lazy<Vowels> = Lazy::new(|| {
     [
@@ -326,6 +461,14 @@ pub(crate) struct ConsonantPattern {
     pub(crate) unit: &'static str,
 }
 
+pub(crate) struct ConsonantCluster {
+    pub(crate) beginning: &'static str,
+    pub(crate) followings: &'static str,
+    pub(crate) cluster: &'static str,
+}
+
+pub(crate) struct ConsonantClusters(Vec<ConsonantCluster>);
+
 pub(crate) struct VowelPattern {
     pub(crate) position: usize,
     pub(crate) extension: Option<Extension>,
@@ -347,7 +490,6 @@ pub(crate) enum Extension {
 }
 
 pub(crate) type Consonants = HashMap<&'static str, ConsonantPattern>;
-pub(crate) type ConsonantTsDs = HashMap<&'static str, &'static str>;
 pub(crate) type Vowels = HashMap<&'static str, VowelPattern>;
 
 pub(crate) trait Assembler {
@@ -411,16 +553,18 @@ impl<'a> From<&'a [&str]> for PhonemePairs<'a> {
 
             let phoneme_pair = match phoneme {
                 phoneme if CONSONANTS.contains_key(phoneme) => {
-                    let consonant_ts_ds = previous_consonant
-                        .filter(|_| phoneme == "s")
+                    let consonant_cluster = previous_consonant
                         .filter(|_| previous_vowel.is_none())
-                        .and_then(|consonant| CONSONANT_TS_DS.get(&consonant))
+                        .and_then(|previous_consonant| {
+                            CONSONANT_CLUSTERS
+                                .get(previous_consonant, phoneme)
+                                .map(|cluster| cluster.cluster)
+                        })
                         .inspect(|_| {
                             accumulator.truncate(accumulator.len() - 1);
-                        })
-                        .cloned();
+                        });
 
-                    PhonemePair::new(consonant_ts_ds.or(Some(phoneme)), None)
+                    PhonemePair::new(consonant_cluster.or(Some(phoneme)), None)
                 },
                 phoneme if VOWELS.contains_key(phoneme) => {
                     let previous_consonant = previous_consonant.filter(|_| previous_vowel.is_none()).inspect(|_| {
@@ -445,6 +589,21 @@ impl<'a> Deref for PhonemePairs<'a> {
 
     fn deref(&self) -> &Self::Target {
         &self.0
+    }
+}
+
+impl Deref for ConsonantClusters {
+    type Target = Vec<ConsonantCluster>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl ConsonantClusters {
+    pub(crate) fn get(&self, beginning: &str, following: &str) -> Option<&ConsonantCluster> {
+        self.iter()
+            .find(|cluster| cluster.beginning == beginning && cluster.followings.contains(&following))
     }
 }
 
@@ -520,6 +679,160 @@ mod tests {
                 phoneme_pairs,
                 PhonemePairs(vec![PhonemePair {
                     consonant: Some("ts"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn ds() {
+            let arpabet = ["d", "s"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("ds"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn mb() {
+            let arpabet = ["m", "b"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("mb"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn mm() {
+            let arpabet = ["m", "m"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("mm"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn mp() {
+            let arpabet = ["m", "p"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("mp"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn by() {
+            let arpabet = ["b", "y"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("by"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn fy() {
+            let arpabet = ["f", "y"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("fy"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn gy() {
+            let arpabet = ["g", "y"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("gy"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn ky() {
+            let arpabet = ["k", "y"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("ky"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn ly() {
+            let arpabet = ["l", "y"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("ly"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn my() {
+            let arpabet = ["m", "y"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("my"),
+                    vowel: None,
+                },])
+            );
+        }
+
+        #[test]
+        fn py() {
+            let arpabet = ["p", "y"];
+            let arpabet = arpabet.as_slice();
+            let phoneme_pairs = PhonemePairs::from(arpabet);
+            assert_eq!(
+                phoneme_pairs,
+                PhonemePairs(vec![PhonemePair {
+                    consonant: Some("py"),
                     vowel: None,
                 },])
             );
