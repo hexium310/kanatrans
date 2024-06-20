@@ -61,15 +61,7 @@ mod tests {
             .expect_execute()
             .times(1)
             .withf(|x| x == "threshold")
-            .returning(|_| Ok(vec![
-                "th".to_string(),
-                "r".to_string(),
-                "eh1".to_string(),
-                "sh".to_string(),
-                "ow1".to_string(),
-                "l".to_string(),
-                "d".to_string(),
-            ]));
+            .returning(|_| Ok(["th", "r", "eh1", "sh", "ow1", "l", "d"].map(Into::into).to_vec()));
 
         let lex_lookup = LexLookup::new(mock_executor);
         let arpabet = lex_lookup.transcribe("threshold").unwrap();
