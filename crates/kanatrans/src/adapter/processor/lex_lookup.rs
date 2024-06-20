@@ -26,8 +26,11 @@ where
 
 impl Executor for LexLookupExecutor {
     fn execute(&self, word: &str) -> Result<Vec<String>> {
-        let lexs = LEXICON.lookup(&word.to_lowercase(), None).map_err(|e| anyhow!(e))?;
-        Ok(lexs)
+        match LEXICON.lookup(&word.to_lowercase(), None) {
+            Ok(lexs) if lexs.is_empty() => Err(anyhow!("cannot convert to ARPAbet")),
+            Ok(lexs) => Ok(lexs),
+            Err(e) => Err(anyhow!(e)),
+        }
     }
 }
 
