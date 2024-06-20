@@ -1,0 +1,6 @@
+[package]
+name = "flite-src"
+edition = "2021"
+
+[dependencies.copy_dir]
+version = "0.1.3"

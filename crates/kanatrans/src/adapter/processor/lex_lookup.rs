@@ -1,6 +1,5 @@
-use std::process::Command;
-
-use anyhow::{anyhow, Result};
+use anyhow::{bail, Result};
+use flite::lexicon::LEXICON;
 
 use crate::{
     adapter::command::Executor,
@@ -21,32 +20,17 @@ where
 
     fn transcribe(&self, word: &str) -> Result<Self::Target> {
         let output = self.executor.execute(word)?;
-
-        let convert_error = anyhow!("cannot convert to ARPAbet");
-
-        let arpabet = output
-            .lines()
-            .next()
-            .ok_or(&convert_error)
-            .unwrap()
-            .trim_matches(|char| ['(', ')'].contains(&char))
-            .split_whitespace()
-            .map(ToString::to_string)
-            .collect::<Vec<_>>();
-
-        if arpabet.first().unwrap() == "[null]" {
-            return Err(convert_error);
-        }
-
-        Ok(Arpabet::new(&arpabet))
+        Ok(Arpabet::from(output))
     }
 }
 
 impl Executor for LexLookupExecutor {
-    fn execute(&self, word: &str) -> Result<String> {
-        let output = Command::new("lex_lookup").arg(word.to_lowercase()).output()?;
-
-        Ok(String::from_utf8_lossy(&output.stdout).to_string())
+    fn execute(&self, word: &str) -> Result<Vec<String>> {
+        match LEXICON.lookup(&word.to_lowercase(), None) {
+            Ok(lexs) if lexs.is_empty() => bail!("cannot convert to ARPAbet"),
+            Ok(lexs) => Ok(lexs),
+            Err(e) => bail!(e),
+        }
     }
 }
 
@@ -80,7 +64,7 @@ mod tests {
             .expect_execute()
             .times(1)
             .withf(|x| x == "threshold")
-            .returning(|_| Ok("(th r eh1 sh ow1 l d)\n(th r eh1 sh hh ow1 l d)".to_string()));
+            .returning(|_| Ok(["th", "r", "eh1", "sh", "ow1", "l", "d"].map(Into::into).to_vec()));
 
         let lex_lookup = LexLookup::new(mock_executor);
         let arpabet = lex_lookup.transcribe("threshold").unwrap();

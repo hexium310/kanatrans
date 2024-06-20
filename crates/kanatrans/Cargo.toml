@@ -1,0 +1,68 @@
+[package]
+name = "kanatrans"
+version = "0.1.1"
+edition = "2021"
+
+[features]
+vendored = ["flite/vendored"]
+
+[dependencies.anyhow]
+version = "1.0.86"
+
+[dependencies.axum]
+version = "0.7.5"
+
+[dependencies.async-trait]
+version = "0.1.80"
+
+[dependencies.flite]
+path = "../flite"
+
+[dependencies.hashbrown]
+version = "0.14.5"
+features = ["serde"]
+
+[dependencies.hyper]
+version = "1.3.1"
+features = ["http1", "client"]
+
+[dependencies.once_cell]
+version = "1.19.0"
+
+[dependencies.serde]
+version = "1.0.203"
+features = ["derive"]
+
+[dependencies.serde_json]
+version = "1.0.117"
+
+[dependencies.tokio]
+version = "1.38.0"
+features = ["macros", "net", "rt-multi-thread", "signal"]
+
+[dependencies.tower-http]
+version = "0.5.2"
+features = ["trace"]
+
+[dependencies.time]
+version = "0.3.36"
+features = ["macros"]
+
+[dependencies.tracing-subscriber]
+version = "0.3.18"
+features = ["env-filter", "time"]
+
+[dependencies.tracing]
+version = "0.1.40"
+
+[dependencies.uuid]
+version = "1.8.0"
+
+[dependencies.url]
+version = "2.5.1"
+
+[dev-dependencies.mockall]
+version = "0.12.1"
+
+[dev-dependencies.pretty_assertions]
+version = "1.4.0"
