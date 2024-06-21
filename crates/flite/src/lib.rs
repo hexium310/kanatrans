@@ -5,14 +5,14 @@ use flite_sys::{cst_val, delete_val, val_car, val_cdr, val_string};
 pub mod lexicon;
 pub mod lts;
 
-pub struct Value(*mut cst_val);
+pub(crate) struct Value(*mut cst_val);
 
-pub struct Val<'a> {
+pub(crate) struct Val<'a> {
     ptr: *const cst_val,
     _phantom: PhantomData<&'a ()>,
 }
 
-pub struct Iter<'a>(Val<'a>);
+pub(crate) struct Iter<'a>(Val<'a>);
 
 impl Drop for Value {
     fn drop(&mut self) {
@@ -25,10 +25,6 @@ impl Drop for Value {
 impl Value {
     pub const fn from_ptr(ptr: *mut cst_val) -> Self {
         Self(ptr)
-    }
-
-    pub const fn as_ptr(&self) -> *mut cst_val {
-        self.0
     }
 
     pub const fn iter(&self) -> Iter<'_> {

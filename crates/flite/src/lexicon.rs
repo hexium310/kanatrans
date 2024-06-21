@@ -7,7 +7,11 @@ use crate::{lts::Rules, Value};
 
 pub struct Lexicon(*mut cst_lexicon);
 
-pub static LEXICON: Lazy<Lexicon> = Lazy::new(|| unsafe { Lexicon::from_ptr(cmu_lex_init()) });
+static LEXICON: Lazy<Lexicon> = Lazy::new(|| unsafe { Lexicon::from_ptr(cmu_lex_init()) });
+
+pub fn lexicon() -> &'static Lexicon {
+    &LEXICON
+}
 
 impl Drop for Lexicon {
     fn drop(&mut self) {
