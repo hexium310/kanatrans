@@ -2,7 +2,7 @@ use std::{net::Ipv6Addr, sync::Arc, time::Duration};
 
 use anyhow::{Context, Error, Result};
 use axum::{
-    http::{Request, Response},
+    http::Response,
     routing::get,
     Router,
 };
