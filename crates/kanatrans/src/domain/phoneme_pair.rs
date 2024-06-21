@@ -616,7 +616,7 @@ impl Deref for ConsonantClusters {
 impl ConsonantClusters {
     pub(crate) fn get(&self, beginning: &str, following: &str) -> Option<&ConsonantCluster> {
         self.iter()
-            .find(|cluster| cluster.beginning == beginning && cluster.followings.contains(&following))
+            .find(|cluster| cluster.beginning == beginning && cluster.followings.contains(following))
     }
 }
 

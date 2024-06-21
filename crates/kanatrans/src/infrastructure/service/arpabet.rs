@@ -19,11 +19,11 @@ pub(crate) async fn get<ArpabetService>(
 where
     ArpabetService: ArpabetServiceInterface,
 {
-    Ok(arpabet_service.get(word).await.map_err(|err| {
+    arpabet_service.get(word).await.map_err(|err| {
         if err.to_string() == "cannot convert to ARPAbet" {
             return ApiError::CannotParseAsArpabet(err);
         }
 
         ApiError::ArpabetGetFailed(err)
-    })?)
+    })
 }

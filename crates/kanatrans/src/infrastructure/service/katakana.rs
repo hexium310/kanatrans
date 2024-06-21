@@ -19,5 +19,5 @@ pub(crate) async fn get<KatakanaService>(
 where
     KatakanaService: KatakanaServiceInterface,
 {
-    Ok(katakana_service.get(params).await.map_err(ApiError::KatakanaGetFailed)?)
+    katakana_service.get(params).await.map_err(ApiError::KatakanaGetFailed)
 }
