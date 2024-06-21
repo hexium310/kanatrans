@@ -25,11 +25,9 @@ where
     KatakanaService: KatakanaServiceInterface,
 {
     let trace_layer = TraceLayer::new_for_http()
-        .on_request(|request: &Request<_>, _span: &Span| {
-            tracing::info!("request: {} {}", request.method(), request.uri())
-        })
+        .on_request(())
         .on_response(|response: &Response<_>, latency: Duration, _span: &Span| {
-            tracing::info!("response: {} in {latency:?}", response.status())
+            tracing::info!("response {} in {latency:?}", response.status())
         })
         .on_failure(DefaultOnFailure::new().level(Level::ERROR));
 
