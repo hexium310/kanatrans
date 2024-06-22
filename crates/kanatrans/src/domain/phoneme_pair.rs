@@ -240,7 +240,7 @@ pub(crate) static CONSONANTS: Lazy<Consonants> = Lazy::new(|| {
             },
         ),
         (
-            "hy",
+            "hhy",
             ConsonantPattern {
                 with_vowel: ["ヒャ", "ヒ", "ヒュ", "ヒェ", "ヒョ"],
                 unit: "ヒュ",
@@ -321,9 +321,9 @@ pub(crate) static CONSONANT_CLUSTERS: Lazy<ConsonantClusters> = Lazy::new(|| {
             cluster: "gy",
         },
         ConsonantCluster {
-            beginning: "h",
+            beginning: "hh",
             followings: "y",
-            cluster: "hy",
+            cluster: "hhy",
         },
         ConsonantCluster {
             beginning: "k",
@@ -808,14 +808,14 @@ mod tests {
         }
 
         #[test]
-        fn hy() {
-            let arpabet = ["h", "y"];
+        fn hhy() {
+            let arpabet = ["hh", "y"];
             let arpabet = arpabet.as_slice();
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
                 PhonemePairs(vec![PhonemePair {
-                    consonant: Some("hy"),
+                    consonant: Some("hhy"),
                     vowel: None,
                 },])
             );
