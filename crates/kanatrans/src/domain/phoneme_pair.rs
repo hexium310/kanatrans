@@ -665,8 +665,7 @@ mod tests {
 
         #[test]
         fn phoneme_pairs_from() {
-            let arpabet = ["th", "r", "eh1", "sh", "ow1", "l", "d"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["th", "r", "eh1", "sh", "ow1", "l", "d"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -697,8 +696,7 @@ mod tests {
 
         #[test]
         fn ts() {
-            let arpabet = ["t", "s"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["t", "s"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -711,8 +709,7 @@ mod tests {
 
         #[test]
         fn ds() {
-            let arpabet = ["d", "s"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["d", "s"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -725,8 +722,7 @@ mod tests {
 
         #[test]
         fn mb() {
-            let arpabet = ["m", "b"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["m", "b"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -739,8 +735,7 @@ mod tests {
 
         #[test]
         fn mm() {
-            let arpabet = ["m", "m"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["m", "m"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -753,8 +748,7 @@ mod tests {
 
         #[test]
         fn mp() {
-            let arpabet = ["m", "p"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["m", "p"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -767,8 +761,7 @@ mod tests {
 
         #[test]
         fn by() {
-            let arpabet = ["b", "y"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["b", "y"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -781,8 +774,7 @@ mod tests {
 
         #[test]
         fn fy() {
-            let arpabet = ["f", "y"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["f", "y"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -795,8 +787,7 @@ mod tests {
 
         #[test]
         fn gy() {
-            let arpabet = ["g", "y"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["g", "y"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -809,8 +800,7 @@ mod tests {
 
         #[test]
         fn hhy() {
-            let arpabet = ["hh", "y"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["hh", "y"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -823,8 +813,7 @@ mod tests {
 
         #[test]
         fn ky() {
-            let arpabet = ["k", "y"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["k", "y"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -837,8 +826,7 @@ mod tests {
 
         #[test]
         fn ly() {
-            let arpabet = ["l", "y"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["l", "y"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -851,8 +839,7 @@ mod tests {
 
         #[test]
         fn my() {
-            let arpabet = ["m", "y"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["m", "y"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -865,8 +852,7 @@ mod tests {
 
         #[test]
         fn py() {
-            let arpabet = ["p", "y"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["p", "y"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -879,8 +865,7 @@ mod tests {
 
         #[test]
         fn two_or_more_vowels() {
-            let arpabet = ["iy0", "ey1"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["iy0", "ey1"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -899,8 +884,7 @@ mod tests {
 
         #[test]
         fn two_or_more_vowels_after_consonant() {
-            let arpabet = ["r", "iy0", "ey1"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["r", "iy0", "ey1"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -919,8 +903,7 @@ mod tests {
 
         #[test]
         fn s_after_d_with_vowel() {
-            let arpabet = ["d", "er", "s"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["d", "er", "s"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
@@ -939,8 +922,7 @@ mod tests {
 
         #[test]
         fn er_before_vowel() {
-            let arpabet = ["n", "er", "ax"];
-            let arpabet = arpabet.as_slice();
+            let arpabet: &[_] = &["n", "er", "ax"];
             let phoneme_pairs = PhonemePairs::from(arpabet);
             assert_eq!(
                 phoneme_pairs,
