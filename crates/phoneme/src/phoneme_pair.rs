@@ -6,7 +6,7 @@ use crate::{
     assembler::Assembler,
     consonant::{consonants, ConsonantPattern},
     phoneme::Phoneme,
-    vowel::{pattern::VOWEL_BASE, vowel::vowels},
+    vowel::vowel::vowels,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -100,7 +100,7 @@ impl<'a> Assembler for PhonemePair<'a> {
         match *self {
             Self::Both(consonant, vowel) => self.assemble_both(consonant, vowel),
             Self::Consonant(consonant) => self.assemble_consonant(consonant),
-            Self::Vowel(vowel) => self.assemble_vowel(vowel, &VOWEL_BASE),
+            Self::Vowel(vowel) => self.assemble_vowel(vowel, vowels().base()),
         }
     }
 

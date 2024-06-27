@@ -1,8 +1,8 @@
 use super::extension::Extension;
 
-pub const VOWEL_BASE: [&str; 5] = ["ア", "イ", "ウ", "エ", "オ"];
+pub(crate) const VOWEL_BASE: [&str; 5] = ["ア", "イ", "ウ", "エ", "オ"];
 
-pub static VOWEL_PATTERNS: [(&str, VowelPattern); 16] = [
+pub(crate) static VOWEL_PATTERNS: [(&str, VowelPattern); 16] = [
     (
         "ae",
         VowelPattern {

@@ -1,6 +1,6 @@
 use std::ops::Deref;
 
-use crate::{consonant::consonants, vowel::pattern::VOWEL_PATTERNS};
+use crate::{consonant::consonants, vowel::vowel::vowels};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Phoneme<'a> {
@@ -25,7 +25,7 @@ impl<'a> From<&'a str> for Phoneme<'a> {
     fn from(value: &'a str) -> Self {
         match value {
             value if consonants().iter().any(|(key, _)| key == &value) => Self::Consonant(value),
-            value if VOWEL_PATTERNS.iter().any(|(key, _)| key == &value) => Self::Vowel(value),
+            value if vowels().iter().any(|(key, _)| key == &value) => Self::Vowel(value),
             value => Self::Unexpected(value),
         }
     }

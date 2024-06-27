@@ -1,6 +1,6 @@
 use crate::consonant::pattern::ConsonantPattern;
 
-pub static CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); 13] = [
+pub(crate) static CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); 13] = [
     (
         "ts",
         ConsonantPattern {

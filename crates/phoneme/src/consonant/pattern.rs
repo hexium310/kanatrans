@@ -1,4 +1,4 @@
-pub static CONSONANT_PATTERNS: [(&str, ConsonantPattern); 25] = [
+pub(crate) static CONSONANT_PATTERNS: [(&str, ConsonantPattern); 25] = [
     (
         "p",
         ConsonantPattern {
