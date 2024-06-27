@@ -6,7 +6,7 @@ pub enum Extension {
 }
 
 impl Extension {
-    pub(crate) fn as_str(&self) -> &str {
+    pub fn as_str(&self) -> &str {
         match self {
             Extension::DiphthongI => "イ",
             Extension::DiphthongU => "ウ",
