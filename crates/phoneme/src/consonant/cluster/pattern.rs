@@ -4,14 +4,14 @@ pub(crate) static CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); 13] = [
     (
         "ts",
         ConsonantPattern {
-            with_vowel: ["タ", "ティ", "ツ", "テ", "ト"],
+            with_vowel: ["ツァ", "ツィ", "ツ", "ツェ", "ツォ"],
             unit: "ツ",
         },
     ),
     (
         "ds",
         ConsonantPattern {
-            with_vowel: ["ダ", "ディ", "ズ", "デ", "ド"],
+            with_vowel: ["ズァ", "ズィ", "ズ", "ズェ", "ズォ"],
             unit: "ズ",
         },
     ),
