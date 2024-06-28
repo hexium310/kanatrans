@@ -1,6 +1,5 @@
-use std::ops::Deref;
+use std::{collections::HashMap, ops::Deref};
 
-use hashbrown::HashMap;
 use once_cell::sync::Lazy;
 
 use super::pattern::{VowelPattern, VOWEL_BASE, VOWEL_PATTERNS};
