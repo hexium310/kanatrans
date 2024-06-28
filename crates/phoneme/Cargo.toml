@@ -1,0 +1,18 @@
+[package]
+name = "phoneme"
+edition = "2021"
+
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.hashbrown]
+workspace = true
+
+[dependencies.once_cell]
+workspace = true
+
+[dependencies.tracing]
+workspace = true
+
+[dev-dependencies.pretty_assertions]
+version = "1.4.0"

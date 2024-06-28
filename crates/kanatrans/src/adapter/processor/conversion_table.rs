@@ -1,12 +1,9 @@
 use anyhow::Result;
+use phoneme::{assembler::Assembler, phoneme_pair::PhonemePairs};
 
 use crate::{
     adapter::converter::Converter,
-    domain::{
-        katakana::Katakana,
-        phoneme_pair::{Assembler, PhonemePairs},
-        processor::transliterator::Transliterator,
-    },
+    domain::{katakana::Katakana, processor::transliterator::Transliterator},
 };
 
 pub(crate) struct ConversionTable<Converter> {
