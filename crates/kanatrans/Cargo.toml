@@ -59,7 +59,7 @@ features = ["env-filter", "time"]
 workspace = true
 
 [dependencies.uuid]
-version = "1.8.0"
+version = "1.9.1"
 
 [dependencies.url]
 version = "2.5.2"
