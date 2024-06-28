@@ -2,7 +2,7 @@ use super::extension::Extension;
 
 pub(crate) const VOWEL_BASE: [&str; 5] = ["ア", "イ", "ウ", "エ", "オ"];
 
-pub(crate) static VOWEL_PATTERNS: [(&str, VowelPattern); 16] = [
+pub(crate) const VOWEL_PATTERNS: [(&str, VowelPattern); 16] = [
     (
         "ae",
         VowelPattern {

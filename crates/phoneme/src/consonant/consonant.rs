@@ -16,7 +16,7 @@ static CONSONANTS: Lazy<Consonant> = Lazy::new(Consonant::default);
 #[derive(Debug)]
 pub struct Consonant {
     consonants: HashMap<&'static str, ConsonantPattern>,
-    cluster_map: &'static Vec<ConsonantCluster>,
+    cluster_map: &'static [ConsonantCluster],
 }
 
 impl Deref for Consonant {
@@ -33,11 +33,10 @@ impl Default for Consonant {
             .into_iter()
             .chain(CONSONANT_CLUSTER_PATTERNS)
             .collect();
-        let cluster_map = &*CLUSTER_MAP;
 
         Self {
             consonants,
-            cluster_map,
+            cluster_map: &CLUSTER_MAP,
         }
     }
 }

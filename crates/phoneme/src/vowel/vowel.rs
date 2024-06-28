@@ -10,7 +10,7 @@ static VOWELS: Lazy<Vowel> = Lazy::new(Vowel::default);
 #[derive(Debug)]
 pub struct Vowel {
     vowels: HashMap<&'static str, VowelPattern>,
-    base: [&'static str; 5],
+    base: &'static [&'static str],
 }
 
 impl Deref for Vowel {
@@ -24,15 +24,17 @@ impl Deref for Vowel {
 impl Default for Vowel {
     fn default() -> Self {
         let vowels = VOWEL_PATTERNS.into();
-        let base = VOWEL_BASE;
 
-        Self { vowels, base }
+        Self {
+            vowels,
+            base: &VOWEL_BASE,
+        }
     }
 }
 
 impl Vowel {
     pub fn base(&self) -> &[&str] {
-        &self.base
+        self.base
     }
 }
 
