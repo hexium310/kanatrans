@@ -1,6 +1,10 @@
-pub const CLUSTER_MAP: [ConsonantCluster; 13] = [
+use super::CLUSTERS_LENGTH;
+
+pub const CLUSTER_MAP: [ConsonantCluster; CLUSTERS_LENGTH] = [
     ConsonantCluster { cluster: "ts" },
+    ConsonantCluster { cluster: "tz" },
     ConsonantCluster { cluster: "ds" },
+    ConsonantCluster { cluster: "dz" },
     ConsonantCluster { cluster: "mb" },
     ConsonantCluster { cluster: "mm" },
     ConsonantCluster { cluster: "mp" },

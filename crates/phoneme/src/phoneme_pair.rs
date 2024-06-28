@@ -185,12 +185,32 @@ mod tests {
     }
 
     #[test]
+    fn tz() {
+        let arpabet = ["t", "z"].as_slice();
+        let phoneme_pairs = PhonemePairs::from(arpabet);
+        assert_eq!(
+            phoneme_pairs,
+            PhonemePairs(vec![PhonemePair::Consonant(Phoneme::Consonant("tz"))])
+        );
+    }
+
+    #[test]
     fn ds() {
         let arpabet = ["d", "s"].as_slice();
         let phoneme_pairs = PhonemePairs::from(arpabet);
         assert_eq!(
             phoneme_pairs,
             PhonemePairs(vec![PhonemePair::Consonant(Phoneme::Consonant("ds"))])
+        );
+    }
+
+    #[test]
+    fn dz() {
+        let arpabet = ["d", "z"].as_slice();
+        let phoneme_pairs = PhonemePairs::from(arpabet);
+        assert_eq!(
+            phoneme_pairs,
+            PhonemePairs(vec![PhonemePair::Consonant(Phoneme::Consonant("dz"))])
         );
     }
 

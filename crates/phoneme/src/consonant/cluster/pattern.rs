@@ -1,6 +1,8 @@
 use crate::consonant::pattern::ConsonantPattern;
 
-pub(crate) static CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); 13] = [
+use super::CLUSTERS_LENGTH;
+
+pub(crate) static CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); CLUSTERS_LENGTH] = [
     (
         "ts",
         ConsonantPattern {
@@ -9,7 +11,21 @@ pub(crate) static CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); 13] = [
         },
     ),
     (
+        "tz",
+        ConsonantPattern {
+            with_vowel: ["ツァ", "ツィ", "ツ", "ツェ", "ツォ"],
+            unit: "ツ",
+        },
+    ),
+    (
         "ds",
+        ConsonantPattern {
+            with_vowel: ["ズァ", "ズィ", "ズ", "ズェ", "ズォ"],
+            unit: "ズ",
+        },
+    ),
+    (
+        "dz",
         ConsonantPattern {
             with_vowel: ["ズァ", "ズィ", "ズ", "ズェ", "ズォ"],
             unit: "ズ",
