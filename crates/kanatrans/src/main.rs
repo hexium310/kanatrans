@@ -1,4 +1,4 @@
-use std::{env, process::exit};
+use std::process::exit;
 
 use adapter::processor::{
     conversion_table::{ConversionTable, KatakanaConverter},
@@ -17,13 +17,11 @@ async fn main() {
     let local_timer = UtcTime::new(format_description!(
         "[year]-[month]-[day] [hour]:[minute]:[second].[subsecond digits:3]+[offset_hour]:[offset_minute]"
     ));
-    let no_color = env::var("NO_COLOR").is_ok_and(|no_color| !no_color.is_empty());
     tracing_subscriber::fmt()
         .with_env_filter(EnvFilter::from_default_env())
         .with_timer(local_timer)
         .with_file(true)
         .with_line_number(true)
-        .with_ansi(!no_color)
         .init();
 
     let arpabet_service = ArpabetService::new(LexLookup::new(LexLookupExecutor::new()));
