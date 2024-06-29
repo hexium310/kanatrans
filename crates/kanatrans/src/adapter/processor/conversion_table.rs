@@ -1,4 +1,5 @@
 use anyhow::Result;
+use itertools::Itertools;
 use phoneme::{assembler::Assembler, phoneme_pair::PhonemePairs};
 
 use crate::{
@@ -28,11 +29,13 @@ where
 impl Converter for KatakanaConverter {
     fn convert(&self, pronunciation: &[&str]) -> Result<String> {
         let phoneme_pairs = PhonemePairs::from(pronunciation);
-        let katakana_list = phoneme_pairs
+        let katakana = phoneme_pairs
             .iter()
             .map(|phoneme_pair| phoneme_pair.assemble())
-            .collect::<Result<Vec<_>>>()?;
-        Ok(katakana_list.join(""))
+            .collect::<Result<String>>()?;
+        let katakana = katakana.chars().dedup_by(|a, b| *a == 'ー' && a == b).collect();
+
+        Ok(katakana)
     }
 }
 

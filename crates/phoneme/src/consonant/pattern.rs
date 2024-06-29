@@ -157,7 +157,7 @@ pub(crate) const CONSONANT_PATTERNS: [(&str, ConsonantPattern); 25] = [
         "r",
         ConsonantPattern {
             with_vowel: ["ラ", "リ", "ル", "レ", "ロ"],
-            unit: "アー",
+            unit: "ー",
         },
     ),
     (
