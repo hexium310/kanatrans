@@ -2,7 +2,7 @@ use crate::consonant::pattern::ConsonantPattern;
 
 use super::CLUSTERS_LENGTH;
 
-pub(crate) static CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); CLUSTERS_LENGTH] = [
+pub(crate) const CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); CLUSTERS_LENGTH] = [
     (
         "ts",
         ConsonantPattern {
