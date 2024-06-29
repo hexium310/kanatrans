@@ -33,7 +33,7 @@ version = "1.0.203"
 features = ["derive"]
 
 [dependencies.serde_json]
-version = "1.0.117"
+version = "1.0.118"
 
 [dependencies.tokio]
 version = "1.38.0"
