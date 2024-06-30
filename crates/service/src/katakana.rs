@@ -1,0 +1,43 @@
+use std::future::Future;
+
+use domain::processor::transliterator::Transliterator;
+use serde::{Deserialize, Serialize};
+
+use crate::error::ServiceError;
+
+#[derive(Deserialize, Serialize)]
+pub struct Katakana {
+    pub pronunciation: String,
+}
+
+pub struct KatakanaService<Processor> {
+    transliterator: Processor,
+}
+
+pub trait KatakanaServiceInterface: Send + Sync + 'static {
+    fn get(&self, params: &[&str]) -> impl Future<Output = Result<Katakana, ServiceError>> + Send;
+}
+
+impl<Processor> KatakanaServiceInterface for KatakanaService<Processor>
+where
+    Processor: Transliterator<Target: Into<String>> + Send + Sync + 'static,
+{
+    async fn get(&self, pronunciation: &[&str]) -> Result<Katakana, ServiceError> {
+        let katakana = self
+            .transliterator
+            .transliterate(pronunciation)
+            .map_err(ServiceError::KatakanaGetFailed)?;
+
+        let response = Katakana {
+            pronunciation: katakana.into(),
+        };
+
+        Ok(response)
+    }
+}
+
+impl<Processor> KatakanaService<Processor> {
+    pub fn new(transliterator: Processor) -> Self {
+        Self { transliterator }
+    }
+}

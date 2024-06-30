@@ -1,0 +1,40 @@
+[package]
+name = "kanatrans"
+version = "0.2.1"
+edition = "2021"
+
+[features]
+vendored = ["adapter/vendored"]
+
+[dependencies.adapter]
+path = "../adapter"
+
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.domain]
+path = "../domain"
+
+[dependencies.phoneme]
+path = "../phoneme"
+
+[dependencies.service]
+path = "../service"
+
+[dependencies.server]
+path = "../server"
+
+[dependencies.tokio]
+version = "1.38.0"
+features = ["macros", "net", "rt-multi-thread", "signal"]
+
+[dependencies.time]
+version = "0.3.36"
+features = ["macros"]
+
+[dependencies.tracing-subscriber]
+version = "0.3.18"
+features = ["env-filter", "time"]
+
+[dependencies.tracing]
+workspace = true
