@@ -1,11 +1,18 @@
 name: CI
+
+permissions:
+  checks: write
+  contents: read
+
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
-  build:
-    name: Build
+  test:
+    name: Test
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -14,19 +21,17 @@ jobs:
           submodules: true
       - name: Set up rust-toolchain
         uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
         with:
           cache-on-failure: true
-      - name: Check apps errors
-        run: |
-          cargo check --features=vendored
       - name: Test
         run: |
-          cargo test --features=vendored
+          cargo test --all-features
       - name: Run clippy
-        uses: giraffate/clippy-action@v1
+        uses: sksat/action-clippy@v1.0.0
         with:
-          clippy_flags: --features=vendored
-          reporter: 'github-pr-review'
+          reporter: github-check
           github_token: ${{ secrets.GITHUB_TOKEN }}
