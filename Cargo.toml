@@ -1,6 +1,16 @@
 [workspace]
-members = ["crates/flite", "crates/flite-src", "crates/flite-sys", "crates/kanatrans", "crates/phoneme"]
-default-members = ["crates/kanatrans"]
+members = [
+    "crates/adapter",
+    "crates/domain",
+    "crates/flite",
+    "crates/flite-src",
+    "crates/flite-sys",
+    "crates/kanatrans-web-app",
+    "crates/phoneme",
+    "crates/server",
+    "crates/service",
+]
+default-members = ["crates/kanatrans-web-app"]
 resolver = "2"
 
 [workspace.dependencies.anyhow]

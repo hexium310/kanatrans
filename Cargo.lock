@@ -3,6 +3,19 @@
 version = 3
 
 [[package]]
+name = "adapter"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "domain",
+ "flite",
+ "itertools 0.13.0",
+ "mockall",
+ "phoneme",
+ "pretty_assertions",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.22.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -209,6 +222,14 @@ name = "diff"
 version = "0.1.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "56254986775e3233ffa9c4d7d3faaf6d36a2c09d30b20687e9f88bc8bafc16c8"
+
+[[package]]
+name = "domain"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "serde",
+]
 
 [[package]]
 name = "downcast"
@@ -455,25 +476,16 @@ checksum = "49f1f14873335454500d59611f1cf4a4b0f786f9ac11f4312a78e4cf2566695b"
 name = "kanatrans"
 version = "0.2.1"
 dependencies = [
+ "adapter",
  "anyhow",
- "async-trait",
- "axum",
- "flite",
- "hyper",
- "itertools 0.13.0",
- "mockall",
- "once_cell",
+ "domain",
  "phoneme",
- "pretty_assertions",
- "serde",
- "serde_json",
+ "server",
+ "service",
  "time",
  "tokio",
- "tower-http",
  "tracing",
  "tracing-subscriber",
- "url",
- "uuid",
 ]
 
 [[package]]
@@ -915,6 +927,48 @@ dependencies = [
 ]
 
 [[package]]
+name = "server"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "hyper",
+ "serde",
+ "service",
+ "thiserror",
+ "tokio",
+ "tower-http",
+ "tracing",
+]
+
+[[package]]
+name = "service"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "axum",
+ "domain",
+ "flite",
+ "hyper",
+ "itertools 0.13.0",
+ "mockall",
+ "once_cell",
+ "phoneme",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "time",
+ "tokio",
+ "tower-http",
+ "tracing",
+ "tracing-subscriber",
+ "url",
+ "uuid",
+]
+
+[[package]]
 name = "sharded-slab"
 version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -982,6 +1036,26 @@ name = "termtree"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3369f5ac52d5eb6ab48c6b4ffdc8efbcad6b89c765749064ba298f2c68a16a76"
+
+[[package]]
+name = "thiserror"
+version = "1.0.61"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c546c80d6be4bc6a00c0f01730c08df82eaa7a7a61f11d656526506112cc1709"
+dependencies = [
+ "thiserror-impl",
+]
+
+[[package]]
+name = "thiserror-impl"
+version = "1.0.61"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46c3384250002a6d5af4d114f2845d37b57521033f30d5c3f46c4d70e1197533"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "thread_local"

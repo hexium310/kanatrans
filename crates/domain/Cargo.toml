@@ -1,0 +1,10 @@
+[package]
+name = "domain"
+edition = "2021"
+
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.serde]
+version = "1.0.203"
+features = ["derive"]
