@@ -35,3 +35,4 @@ jobs:
         with:
           reporter: github-check
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          clippy_flags: --all-features
