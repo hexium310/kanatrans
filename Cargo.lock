@@ -467,7 +467,6 @@ name = "kanatrans"
 version = "0.2.1"
 dependencies = [
  "adapter",
- "anyhow",
  "domain",
  "phoneme",
  "server",
@@ -923,7 +922,6 @@ version = "0.0.0"
 dependencies = [
  "anyhow",
  "axum",
- "hyper",
  "serde",
  "service",
  "thiserror",
@@ -940,7 +938,6 @@ dependencies = [
  "domain",
  "serde",
  "thiserror",
- "tracing",
 ]
 
 [[package]]

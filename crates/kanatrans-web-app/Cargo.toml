@@ -9,9 +9,6 @@ vendored = ["adapter/vendored"]
 [dependencies.adapter]
 path = "../adapter"
 
-[dependencies.anyhow]
-workspace = true
-
 [dependencies.domain]
 path = "../domain"
 
