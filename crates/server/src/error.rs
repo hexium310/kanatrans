@@ -1,5 +1,8 @@
-use axum::{response::{IntoResponse, Response}, Json};
-use hyper::StatusCode;
+use axum::{
+    http::StatusCode,
+    response::{IntoResponse, Response},
+    Json,
+};
 use serde::Serialize;
 use service::error::ServiceError;
 
