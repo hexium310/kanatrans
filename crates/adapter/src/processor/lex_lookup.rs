@@ -1,13 +1,15 @@
-use anyhow::{bail, Result};
-use flite::lexicon::lexicon;
+use anyhow::{anyhow, bail, Result};
 use domain::{arpabet::Arpabet, processor::transcriber::Transcriber};
+use flite::lexicon::lexicon;
 
-use crate::command::Executor;
+use crate::{command::Executor, error::ProcessorError};
 
+#[derive(Debug)]
 pub struct LexLookup<CommandExecutor> {
     executor: CommandExecutor,
 }
 
+#[derive(Debug)]
 pub struct LexLookupExecutor;
 
 impl<CommandExecutor> Transcriber for LexLookup<CommandExecutor>
@@ -25,9 +27,12 @@ where
 impl Executor for LexLookupExecutor {
     fn execute(&self, word: &str) -> Result<Vec<String>> {
         match lexicon().lookup(&word.to_lowercase(), None) {
-            Ok(lexs) if lexs.is_empty() => bail!("cannot convert to ARPAbet"),
+            Ok(lexs) if lexs.is_empty() => bail!(ProcessorError::NoPhonemes { word: word.to_string() }),
             Ok(lexs) => Ok(lexs),
-            Err(e) => bail!(e),
+            Err(e) => bail!(ProcessorError::InvalidCharacter {
+                word: word.to_string(),
+                source: anyhow!(e)
+            }),
         }
     }
 }
@@ -50,6 +55,7 @@ impl LexLookupExecutor {
 #[cfg(test)]
 mod tests {
     use domain::{arpabet::Arpabet, processor::transcriber::Transcriber};
+
     use super::LexLookup;
     use crate::command::MockExecutor;
 

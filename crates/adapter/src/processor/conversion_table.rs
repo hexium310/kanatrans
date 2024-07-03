@@ -1,14 +1,16 @@
-use anyhow::Result;
+use anyhow::{Error, Result};
 use domain::{katakana::Katakana, processor::transliterator::Transliterator};
 use itertools::Itertools;
 use phoneme::{assembler::Assembler, phoneme_pair::PhonemePairs};
 
 use crate::converter::Converter;
 
+#[derive(Debug)]
 pub struct ConversionTable<Converter> {
     converter: Converter,
 }
 
+#[derive(Debug)]
 pub struct KatakanaConverter;
 
 impl<KatakanaConverter> Transliterator for ConversionTable<KatakanaConverter>
@@ -29,7 +31,7 @@ impl Converter for KatakanaConverter {
         let phoneme_pairs = PhonemePairs::from(pronunciation);
         let katakana = phoneme_pairs
             .iter()
-            .map(|phoneme_pair| phoneme_pair.assemble())
+            .map(|phoneme_pair| phoneme_pair.assemble().map_err(Error::from))
             .collect::<Result<String>>()?;
         let katakana = katakana.chars().dedup_by(|a, b| *a == 'ー' && a == b).collect();
 

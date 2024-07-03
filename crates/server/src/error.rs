@@ -4,12 +4,8 @@ use serde::Serialize;
 use service::error::ServiceError;
 
 #[derive(thiserror::Error, Debug)]
-pub enum ServerError {
-    #[error("getting arpabet failed")]
-    ArpabetGetFailed(#[source] ServiceError),
-    #[error("getting katakana failed")]
-    KatakanaGetFailed(#[source] ServiceError),
-}
+#[error(transparent)]
+pub struct ServerError(#[from] pub ServiceError);
 
 impl IntoResponse for ServerError {
     fn into_response(self) -> Response {
@@ -18,10 +14,7 @@ impl IntoResponse for ServerError {
             message: String,
         }
 
-        let (status, message) = match self {
-            Self::ArpabetGetFailed(err) => (StatusCode::INTERNAL_SERVER_ERROR, err.to_string()),
-            Self::KatakanaGetFailed(err) => (StatusCode::INTERNAL_SERVER_ERROR, err.to_string()),
-        };
+        let (status, message) = (StatusCode::INTERNAL_SERVER_ERROR, self.0.to_string());
 
         (status, Json(ErrorResponse { message })).into_response()
     }

@@ -20,6 +20,9 @@ version = "0.13.0"
 [dependencies.phoneme]
 path = "../phoneme"
 
+[dependencies.thiserror]
+version = "1.0.61"
+
 [dev-dependencies.mockall]
 version = "0.12.1"
 

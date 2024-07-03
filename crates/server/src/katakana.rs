@@ -26,7 +26,7 @@ where
     let katakana = katakana_service
         .get(&params.pronunciation.split_whitespace().collect::<Vec<_>>())
         .await
-        .map_err(ServerError::KatakanaGetFailed)?;
+        .map_err(ServerError)?;
 
     Ok(Json(katakana).into_response())
 }

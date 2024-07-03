@@ -15,7 +15,7 @@ pub async fn get<ArpabetService>(
 where
     ArpabetService: ArpabetServiceInterface,
 {
-    let arpabet = arpabet_service.get(word).await.map_err(ServerError::ArpabetGetFailed)?;
+    let arpabet = arpabet_service.get(word).await.map_err(ServerError)?;
 
     Ok(Json(arpabet).into_response())
 }
