@@ -45,12 +45,6 @@ impl<Converter> ConversionTable<Converter> {
     }
 }
 
-impl KatakanaConverter {
-    pub fn new() -> Self {
-        Self
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use domain::{katakana::Katakana, processor::transliterator::Transliterator};
@@ -79,7 +73,7 @@ mod tests {
 
     #[test]
     fn convert() {
-        let converter = KatakanaConverter::new();
+        let converter = KatakanaConverter;
 
         #[rustfmt::skip]
         let threshold = converter

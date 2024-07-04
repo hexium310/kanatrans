@@ -21,8 +21,8 @@ async fn main() {
         .with_line_number(true)
         .init();
 
-    let arpabet_service = ArpabetService::new(LexLookup::new(LexLookupExecutor::new()));
-    let katakana_service = KatakanaService::new(ConversionTable::new(KatakanaConverter::new()));
+    let arpabet_service = ArpabetService::new(LexLookup::new(LexLookupExecutor));
+    let katakana_service = KatakanaService::new(ConversionTable::new(KatakanaConverter));
 
     if let Err(err) = router::start(arpabet_service, katakana_service).await {
         tracing::error!("failed to serve:\n{err:?}");

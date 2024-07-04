@@ -46,12 +46,6 @@ where
     }
 }
 
-impl LexLookupExecutor {
-    pub fn new() -> Self {
-        Self
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use domain::{arpabet::Arpabet, processor::transcriber::Transcriber};
