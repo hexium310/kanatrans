@@ -9,18 +9,17 @@ workspace = true
 version = "0.7.5"
 
 [dependencies.serde]
-version = "1.0.203"
-features = ["derive"]
+workspace = true
 
 [dependencies.service]
-path = "../service"
+workspace = true
 
 [dependencies.thiserror]
-version = "1.0.61"
+workspace = true
 
 [dependencies.tokio]
-version = "1.38.0"
-features = ["macros", "net", "rt-multi-thread", "signal"]
+workspace = true
+features = ["net", "signal"]
 
 [dependencies.tower-http]
 version = "0.5.2"

@@ -6,5 +6,4 @@ edition = "2021"
 workspace = true
 
 [dependencies.serde]
-version = "1.0.203"
-features = ["derive"]
+workspace = true

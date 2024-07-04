@@ -16,8 +16,30 @@ resolver = "2"
 [workspace.dependencies.anyhow]
 version = "1.0.86"
 
+[workspace.dependencies.domain]
+path = "crates/domain"
+
+[workspace.dependencies.phoneme]
+path = "crates/phoneme"
+
+[workspace.dependencies.thiserror]
+version = "1.0.61"
+
+[workspace.dependencies.serde]
+version = "1.0.203"
+features = ["derive"]
+
 [workspace.dependencies.once_cell]
 version = "1.19.0"
 
+[workspace.dependencies.pretty_assertions]
+version = "1.4.0"
+
 [workspace.dependencies.tracing]
 version = "0.1.40"
+
+[workspace.dependencies.service]
+path = "crates/service"
+
+[workspace.dependencies.tokio]
+version = "1.38.0"

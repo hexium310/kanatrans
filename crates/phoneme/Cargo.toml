@@ -9,10 +9,10 @@ workspace = true
 workspace = true
 
 [dependencies.thiserror]
-version = "1.0.61"
+workspace = true
 
 [dependencies.tracing]
 workspace = true
 
 [dev-dependencies.pretty_assertions]
-version = "1.4.0"
+workspace = true

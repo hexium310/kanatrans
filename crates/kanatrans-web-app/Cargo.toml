@@ -10,20 +10,20 @@ vendored = ["adapter/vendored"]
 path = "../adapter"
 
 [dependencies.domain]
-path = "../domain"
+workspace = true
 
 [dependencies.phoneme]
-path = "../phoneme"
+workspace = true
 
 [dependencies.service]
-path = "../service"
+workspace = true
 
 [dependencies.server]
 path = "../server"
 
 [dependencies.tokio]
-version = "1.38.0"
-features = ["macros", "net", "rt-multi-thread", "signal"]
+workspace = true
+features = ["macros", "rt-multi-thread"]
 
 [dependencies.time]
 version = "0.3.36"

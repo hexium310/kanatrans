@@ -9,7 +9,7 @@ vendored = ["flite/vendored"]
 workspace = true
 
 [dependencies.domain]
-path = "../domain"
+workspace = true
 
 [dependencies.flite]
 path = "../flite"
@@ -18,13 +18,13 @@ path = "../flite"
 version = "0.13.0"
 
 [dependencies.phoneme]
-path = "../phoneme"
+workspace = true
 
 [dependencies.thiserror]
-version = "1.0.61"
+workspace = true
 
 [dev-dependencies.mockall]
 version = "0.12.1"
 
 [dev-dependencies.pretty_assertions]
-version = "1.4.0"
+workspace = true
