@@ -24,6 +24,7 @@ impl<Processor> ArpabetServiceInterface for ArpabetService<Processor>
 where
     Processor: Transcriber<Target: Deref<Target = [String]>> + Debug + Send + Sync + 'static,
 {
+    #[tracing::instrument(ret(level = tracing::Level::INFO), err)]
     async fn get(&self, word: String) -> Result<Arpabet, ServiceError> {
         let arpabet = self
             .transcriber

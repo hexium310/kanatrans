@@ -23,6 +23,7 @@ impl<Processor> KatakanaServiceInterface for KatakanaService<Processor>
 where
     Processor: Transliterator<Target: Into<String>> + Debug + Send + Sync + 'static,
 {
+    #[tracing::instrument(ret(level = tracing::Level::INFO), err)]
     async fn get(&self, pronunciation: &[&str]) -> Result<Katakana, ServiceError> {
         let katakana =
             self.transliterator

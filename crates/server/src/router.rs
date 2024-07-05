@@ -7,8 +7,8 @@ use tokio::{
     net::TcpListener,
     signal::unix::{signal, SignalKind},
 };
-use tower_http::trace::{DefaultOnFailure, TraceLayer};
-use tracing::{Level, Span};
+use tower_http::trace::TraceLayer;
+use tracing::Span;
 
 use crate::{arpabet, katakana};
 
@@ -25,7 +25,7 @@ where
         .on_response(|response: &Response<_>, latency: Duration, _span: &Span| {
             tracing::info!("response {} in {latency:?}", response.status())
         })
-        .on_failure(DefaultOnFailure::new().level(Level::ERROR));
+        .on_failure(());
 
     let port = std::env::var("KANATRANS_PORT")
         .map_err(Error::from)

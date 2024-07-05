@@ -938,6 +938,7 @@ dependencies = [
  "domain",
  "serde",
  "thiserror",
+ "tracing",
 ]
 
 [[package]]

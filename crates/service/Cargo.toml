@@ -13,3 +13,6 @@ workspace = true
 
 [dependencies.thiserror]
 workspace = true
+
+[dependencies.tracing]
+workspace = true
