@@ -1,11 +1,7 @@
 use std::{net::Ipv6Addr, sync::Arc, time::Duration};
 
 use anyhow::{Context, Error, Result};
-use axum::{
-    http::Response,
-    routing::get,
-    Router,
-};
+use axum::{http::Response, routing::get, Router};
 use service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterface};
 use tokio::{
     net::TcpListener,

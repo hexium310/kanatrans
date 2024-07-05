@@ -2,7 +2,8 @@ use std::sync::Arc;
 
 use axum::{
     extract::{Path, State},
-    response::{IntoResponse, Response}, Json,
+    response::{IntoResponse, Response},
+    Json,
 };
 use service::arpabet::ArpabetServiceInterface;
 
