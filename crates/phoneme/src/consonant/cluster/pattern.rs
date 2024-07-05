@@ -1,6 +1,5 @@
-use crate::consonant::pattern::ConsonantPattern;
-
 use super::CLUSTERS_LENGTH;
+use crate::consonant::pattern::ConsonantPattern;
 
 pub(crate) const CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); CLUSTERS_LENGTH] = [
     (

@@ -9,4 +9,4 @@ vendored = ["flite-sys/vendored"]
 path = "../flite-sys"
 
 [dependencies.once_cell]
-version = "1.19.0"
+workspace = true

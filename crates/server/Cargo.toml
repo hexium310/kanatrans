@@ -1,0 +1,29 @@
+[package]
+name = "server"
+edition = "2021"
+
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.axum]
+version = "0.7.5"
+
+[dependencies.serde]
+workspace = true
+
+[dependencies.service]
+workspace = true
+
+[dependencies.thiserror]
+workspace = true
+
+[dependencies.tokio]
+workspace = true
+features = ["net", "signal"]
+
+[dependencies.tower-http]
+version = "0.5.2"
+features = ["trace"]
+
+[dependencies.tracing]
+workspace = true

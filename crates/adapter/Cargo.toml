@@ -1,0 +1,30 @@
+[package]
+name = "adapter"
+edition = "2021"
+
+[features]
+vendored = ["flite/vendored"]
+
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.domain]
+workspace = true
+
+[dependencies.flite]
+path = "../flite"
+
+[dependencies.itertools]
+version = "0.13.0"
+
+[dependencies.phoneme]
+workspace = true
+
+[dependencies.thiserror]
+workspace = true
+
+[dev-dependencies.mockall]
+version = "0.12.1"
+
+[dev-dependencies.pretty_assertions]
+workspace = true

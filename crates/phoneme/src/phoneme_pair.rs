@@ -1,10 +1,11 @@
 use std::{borrow::Cow, ops::Deref};
 
-use anyhow::{bail, Result};
+use anyhow::Result;
 
 use crate::{
     assembler::Assembler,
     consonant::{consonants, ConsonantPattern},
+    error::AssemblerError,
     phoneme::Phoneme,
     vowel::vowel::vowels,
 };
@@ -96,7 +97,7 @@ impl<'a> From<Phoneme<'a>> for PhonemePair<'a> {
 }
 
 impl<'a> Assembler for PhonemePair<'a> {
-    fn assemble(&self) -> Result<Cow<'_, str>> {
+    fn assemble(&self) -> Result<Cow<'_, str>, AssemblerError> {
         match *self {
             Self::Both(consonant, vowel) => self.assemble_both(consonant, vowel),
             Self::Consonant(consonant) => self.assemble_consonant(consonant),
@@ -104,25 +105,25 @@ impl<'a> Assembler for PhonemePair<'a> {
         }
     }
 
-    fn assemble_both(&self, consonant: Phoneme<'_>, vowel: Phoneme<'_>) -> Result<Cow<'_, str>> {
+    fn assemble_both(&self, consonant: Phoneme<'_>, vowel: Phoneme<'_>) -> Result<Cow<'_, str>, AssemblerError> {
         let Some(ConsonantPattern { with_vowel, .. }) = consonants().get(*consonant) else {
-            bail!("unexpected consonant: {}", *consonant);
+            return Err(AssemblerError::UnexpectedConsonant(consonant.to_string()));
         };
 
         self.assemble_vowel(vowel, with_vowel)
     }
 
-    fn assemble_consonant(&self, consonant: Phoneme<'_>) -> Result<Cow<'_, str>> {
+    fn assemble_consonant(&self, consonant: Phoneme<'_>) -> Result<Cow<'_, str>, AssemblerError> {
         let Some(ConsonantPattern { unit, .. }) = consonants().get(*consonant) else {
-            bail!("unexpected consonant: {}", *consonant);
+            return Err(AssemblerError::UnexpectedConsonant(consonant.to_string()));
         };
 
         Ok(Cow::Borrowed(unit))
     }
 
-    fn assemble_vowel(&self, vowel: Phoneme<'_>, list: &[&str]) -> Result<Cow<'_, str>> {
+    fn assemble_vowel(&self, vowel: Phoneme<'_>, list: &[&str]) -> Result<Cow<'_, str>, AssemblerError> {
         let Some(vowel_pattern) = vowels().get(*vowel) else {
-            bail!("unexpected vowel: {}", *vowel);
+            return Err(AssemblerError::UnexpectedVowel(vowel.to_string()));
         };
 
         let base = list[vowel_pattern.position];

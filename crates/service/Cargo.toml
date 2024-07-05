@@ -1,0 +1,15 @@
+[package]
+name = "service"
+edition = "2021"
+
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.domain]
+workspace = true
+
+[dependencies.serde]
+workspace = true
+
+[dependencies.thiserror]
+workspace = true

@@ -8,8 +8,11 @@ workspace = true
 [dependencies.once_cell]
 workspace = true
 
+[dependencies.thiserror]
+workspace = true
+
 [dependencies.tracing]
 workspace = true
 
 [dev-dependencies.pretty_assertions]
-version = "1.4.0"
+workspace = true
