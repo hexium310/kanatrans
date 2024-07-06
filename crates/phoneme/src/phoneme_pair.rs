@@ -316,6 +316,16 @@ mod tests {
     }
 
     #[test]
+    fn ny() {
+        let arpabet = ["n", "y"].as_slice();
+        let phoneme_pairs = PhonemePairs::from(arpabet);
+        assert_eq!(
+            phoneme_pairs,
+            PhonemePairs(vec![PhonemePair::Consonant(Phoneme::Consonant("ny"))])
+        );
+    }
+
+    #[test]
     fn py() {
         let arpabet = ["p", "y"].as_slice();
         let phoneme_pairs = PhonemePairs::from(arpabet);

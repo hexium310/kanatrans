@@ -15,6 +15,7 @@ pub const CLUSTER_MAP: [ConsonantCluster; CLUSTERS_LENGTH] = [
     ConsonantCluster { cluster: "ky" },
     ConsonantCluster { cluster: "ly" },
     ConsonantCluster { cluster: "my" },
+    ConsonantCluster { cluster: "ny" },
     ConsonantCluster { cluster: "py" },
 ];
 

@@ -101,6 +101,13 @@ pub(crate) const CONSONANT_CLUSTER_PATTERNS: [(&str, ConsonantPattern); CLUSTERS
         },
     ),
     (
+        "ny",
+        ConsonantPattern {
+            with_vowel: ["ニャ", "ニ", "ニュ", "ニェ", "ニョ"],
+            unit: "ニュ",
+        },
+    ),
+    (
         "py",
         ConsonantPattern {
             with_vowel: ["ピャ", "ピ", "ピュ", "ピェ", "ピョ"],
