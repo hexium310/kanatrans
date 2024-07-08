@@ -4,7 +4,10 @@ use anyhow::Result;
 use clap::Parser;
 use service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterface};
 
-use crate::{options::Options, runner::Runner};
+use crate::{
+    options::{Options, OutputKind},
+    runner::Runner,
+};
 
 pub struct Cli {
     options: Options,
@@ -25,27 +28,26 @@ where
 {
     async fn run(&self, arpabet_service: ArpabetService, katakana_service: KatakanaService) -> Result<()> {
         let options = &self.options;
-        let word = &options.word;
 
+        let word = &options.word;
         let arpabet = arpabet_service.get(word.to_owned()).await?;
         let pronunciation = arpabet.pronunciation.iter().map(AsRef::as_ref).collect::<Vec<_>>();
 
         let stdout = stdout();
         let mut buffer = BufWriter::new(&stdout);
 
-        if options.arpabet {
-            writeln!(buffer, "{}", pronunciation.join(" "))?;
-            buffer.flush()?;
+        match options.output_kind.kind() {
+            OutputKind::Arpabet => {
+                writeln!(buffer, "{}", pronunciation.join(" "))?;
+                buffer.flush()?;
+            },
+            OutputKind::Katakana => {
+                let katakana = katakana_service.get(&pronunciation).await?;
 
-            return Ok(());
-        }
-
-        if options.katakana {
-            let katakana = katakana_service.get(&pronunciation).await?;
-
-            writeln!(buffer, "{}", katakana.pronunciation)?;
-            buffer.flush()?;
-        }
+                writeln!(buffer, "{}", katakana.pronunciation)?;
+                buffer.flush()?;
+            },
+        };
 
         Ok(())
     }
