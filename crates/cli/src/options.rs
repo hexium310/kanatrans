@@ -12,21 +12,23 @@ pub struct Options {
 pub struct OutputKindArgs {
     #[arg(short, long)]
     pub(crate) arpabet: bool,
-    #[arg(short, long, default_value_t = true)]
+    #[arg(short, long)]
     pub(crate) katakana: bool,
 }
 
 pub enum OutputKind {
     Arpabet,
     Katakana,
+    All,
 }
 
 impl OutputKindArgs {
     pub fn kind(&self) -> OutputKind {
         match (self.arpabet, self.katakana) {
-            (true, _) => OutputKind::Arpabet,
-            (_, true) => OutputKind::Katakana,
-            _ => unreachable!(),
+            (true, false) => OutputKind::Arpabet,
+            (false, true) => OutputKind::Katakana,
+            (true, true) => OutputKind::All,
+            (false, false) => OutputKind::Katakana,
         }
     }
 }
