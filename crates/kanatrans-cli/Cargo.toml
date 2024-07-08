@@ -1,7 +1,9 @@
 [package]
 name = "kanatrans-cli"
-version = "0.2.3"
 edition = "2021"
+
+[package.version]
+workspace = true
 
 [features]
 vendored = ["adapter/vendored"]
