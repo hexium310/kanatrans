@@ -1,0 +1,13 @@
+[package]
+name = "cli"
+edition = "2021"
+
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.clap]
+version = "4.5.8"
+features = ["derive"]
+
+[dependencies.service]
+workspace = true

@@ -1,10 +1,12 @@
 [workspace]
 members = [
     "crates/adapter",
+    "crates/cli",
     "crates/domain",
     "crates/flite",
     "crates/flite-src",
     "crates/flite-sys",
+    "crates/kanatrans-cli",
     "crates/kanatrans-web-app",
     "crates/phoneme",
     "crates/server",

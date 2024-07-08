@@ -1,0 +1,20 @@
+[package]
+name = "kanatrans-cli"
+version = "0.2.3"
+edition = "2021"
+
+[features]
+vendored = ["adapter/vendored"]
+
+[dependencies.adapter]
+path = "../adapter"
+
+[dependencies.cli]
+path = "../cli"
+
+[dependencies.service]
+workspace = true
+
+[dependencies.tokio]
+workspace = true
+features = ["macros", "rt-multi-thread"]
