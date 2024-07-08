@@ -1,7 +1,4 @@
-use std::{
-    io::{stdout, BufWriter, Write},
-    ops::Deref,
-};
+use std::io::{stdout, BufWriter, Write};
 
 use anyhow::Result;
 use clap::Parser;
@@ -11,14 +8,6 @@ use crate::{options::Options, runner::Runner};
 
 pub struct Cli {
     options: Options,
-}
-
-impl Deref for Cli {
-    type Target = Options;
-
-    fn deref(&self) -> &Self::Target {
-        &self.options
-    }
 }
 
 impl Default for Cli {
