@@ -3,7 +3,7 @@ use clap::{Args, Parser};
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 pub struct Options {
-    pub(crate) word: String,
+    pub(crate) words: Vec<String>,
     #[command(flatten)]
     pub(crate) output_kind: OutputKindArgs,
 }

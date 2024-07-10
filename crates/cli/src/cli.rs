@@ -29,31 +29,32 @@ where
     async fn run(&self, arpabet_service: ArpabetService, katakana_service: KatakanaService) -> Result<()> {
         let options = &self.options;
 
-        let word = &options.word;
-        let arpabet = arpabet_service.get(word.to_owned()).await?;
-        let pronunciation = arpabet.pronunciation.iter().map(AsRef::as_ref).collect::<Vec<_>>();
-
         let stdout = stdout();
         let mut buffer = BufWriter::new(&stdout);
 
-        match options.output_kind.kind() {
-            OutputKind::Arpabet => {
-                writeln!(buffer, "{}", pronunciation.join(" "))?;
-                buffer.flush()?;
-            },
-            OutputKind::Katakana => {
-                let katakana = katakana_service.get(&pronunciation).await?;
+        for word in &options.words {
+            let arpabet = arpabet_service.get(word.to_owned()).await?;
+            let pronunciation = arpabet.pronunciation.iter().map(AsRef::as_ref).collect::<Vec<_>>();
 
-                writeln!(buffer, "{}", katakana.pronunciation)?;
-                buffer.flush()?;
-            },
-            OutputKind::All => {
-                let katakana = katakana_service.get(&pronunciation).await?;
+            match options.output_kind.kind() {
+                OutputKind::Arpabet => {
+                    writeln!(buffer, "{}", pronunciation.join(" "))?;
+                    buffer.flush()?;
+                },
+                OutputKind::Katakana => {
+                    let katakana = katakana_service.get(&pronunciation).await?;
 
-                writeln!(buffer, "{}\t{}", pronunciation.join(" "), katakana.pronunciation)?;
-                buffer.flush()?;
-            },
-        };
+                    writeln!(buffer, "{}", katakana.pronunciation)?;
+                    buffer.flush()?;
+                },
+                OutputKind::All => {
+                    let katakana = katakana_service.get(&pronunciation).await?;
+
+                    writeln!(buffer, "{}\t{}", pronunciation.join(" "), katakana.pronunciation)?;
+                    buffer.flush()?;
+                },
+            };
+        }
 
         Ok(())
     }
