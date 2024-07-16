@@ -54,22 +54,21 @@ where
             match self.output_kind.kind() {
                 OutputKind::Arpabet => {
                     writeln!(buffer, "{}", pronunciation.join(" "))?;
-                    buffer.flush()?;
                 },
                 OutputKind::Katakana => {
                     let katakana = katakana_service.get(&pronunciation).await?;
 
                     writeln!(buffer, "{}", katakana.pronunciation)?;
-                    buffer.flush()?;
                 },
                 OutputKind::All => {
                     let katakana = katakana_service.get(&pronunciation).await?;
 
                     writeln!(buffer, "{} ({})", katakana.pronunciation, pronunciation.join(" "))?;
-                    buffer.flush()?;
                 },
             };
         }
+
+        buffer.flush()?;
 
         Ok(())
     }
