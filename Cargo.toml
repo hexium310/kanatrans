@@ -6,12 +6,12 @@ members = [
     "crates/flite",
     "crates/flite-src",
     "crates/flite-sys",
-    "crates/kanatrans-web-app",
+    "crates/kanatrans",
     "crates/phoneme",
     "crates/server",
     "crates/service",
 ]
-default-members = ["crates/kanatrans-web-app"]
+default-members = ["crates/kanatrans"]
 resolver = "2"
 
 [workspace.package]
