@@ -65,7 +65,7 @@ where
                 OutputKind::All => {
                     let katakana = katakana_service.get(&pronunciation).await?;
 
-                    writeln!(buffer, "{}\t{}", pronunciation.join(" "), katakana.pronunciation)?;
+                    writeln!(buffer, "{} ({})", katakana.pronunciation, pronunciation.join(" "))?;
                     buffer.flush()?;
                 },
             };
