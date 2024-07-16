@@ -6,8 +6,9 @@ use cli::options::Options;
 #[derive(Parser)]
 #[command(version, about, long_about = None, arg_required_else_help(true))]
 pub(crate) struct Command {
+    #[cfg(feature = "server")]
     /// Start Kanatrans server
-    #[arg(short, long, conflicts_with_all = ["arpabet", "katakana", "words"])]
+    #[arg(short, long, exclusive(true))]
     pub(crate) serve: bool,
 
     #[cfg(feature = "cli")]
@@ -31,6 +32,10 @@ impl Command {
     }
 
     fn is_serve(&self) -> bool {
-        cfg!(feature = "server") && self.serve
+        #[cfg(feature = "server")]
+        return self.serve;
+
+        #[cfg(not(feature = "server"))]
+        false
     }
 }
