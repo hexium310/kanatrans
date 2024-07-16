@@ -577,6 +577,8 @@ name = "kanatrans"
 version = "0.2.3"
 dependencies = [
  "adapter",
+ "clap",
+ "cli",
  "domain",
  "phoneme",
  "server",
@@ -585,16 +587,6 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-subscriber",
-]
-
-[[package]]
-name = "kanatrans-cli"
-version = "0.2.3"
-dependencies = [
- "adapter",
- "cli",
- "service",
- "tokio",
 ]
 
 [[package]]

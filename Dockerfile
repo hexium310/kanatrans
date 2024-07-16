@@ -14,7 +14,7 @@ FROM runtime AS builder
 COPY . .
 RUN --mount=type=cache,id=api:/usr/local/cargo/registry,target=/usr/local/cargo/registry \
     --mount=type=cache,id=api:/usr/src/target,target=/usr/src/target \
-    cargo build --release --features=vendored \
+    cargo build --release --no-default-features --features=vendored,server \
     && cp target/release/kanatrans /usr/local/bin/kanatrans
 
 FROM scratch AS kanatrans
@@ -25,4 +25,4 @@ COPY --from=runtime /lib/x86_64-linux-gnu/libgcc_s.so* /lib/x86_64-linux-gnu/
 COPY --from=runtime /lib/x86_64-linux-gnu/libm.so* /lib/x86_64-linux-gnu/
 COPY --from=runtime /lib64/ld-linux-x86-64.so* /lib64/
 COPY --from=builder /usr/local/bin/kanatrans /usr/local/bin/kanatrans
-ENTRYPOINT ["kanatrans"]
+ENTRYPOINT ["kanatrans", "--serve"]

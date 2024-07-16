@@ -6,10 +6,19 @@ edition = "2021"
 workspace = true
 
 [features]
+default = ["cli", "server"]
 vendored = ["adapter/vendored"]
 
 [dependencies.adapter]
 path = "../adapter"
+
+[dependencies.clap]
+version = "4.5.8"
+features = ["derive"]
+
+[dependencies.cli]
+path = "../cli"
+optional = true
 
 [dependencies.domain]
 workspace = true
@@ -22,6 +31,7 @@ workspace = true
 
 [dependencies.server]
 path = "../server"
+optional = true
 
 [dependencies.tokio]
 workspace = true
