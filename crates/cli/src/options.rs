@@ -8,6 +8,7 @@ use crate::runner::Runner;
 
 #[derive(Args)]
 pub struct Options {
+    /// Words composed of English alphabet
     pub words: Vec<String>,
     #[command(flatten)]
     pub(crate) output_kind: OutputKindArgs,
@@ -15,8 +16,10 @@ pub struct Options {
 
 #[derive(Args)]
 pub struct OutputKindArgs {
+    /// Print APRAbet
     #[arg(short, long)]
     pub(crate) arpabet: bool,
+    /// Print Katakana (default: true)
     #[arg(short, long)]
     pub(crate) katakana: bool,
 }

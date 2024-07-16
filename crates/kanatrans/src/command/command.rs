@@ -2,9 +2,11 @@ use clap::Parser;
 #[cfg(feature = "cli")]
 use cli::options::Options;
 
+/// Print Katakana or ARPAbet converted from word composed of English alphabet
 #[derive(Parser)]
 #[command(version, about, long_about = None, arg_required_else_help(true))]
 pub(crate) struct Command {
+    /// Start Kanatrans server
     #[arg(short, long, conflicts_with_all = ["arpabet", "katakana", "words"])]
     pub(crate) serve: bool,
 
