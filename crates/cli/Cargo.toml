@@ -7,8 +7,7 @@ version.workspace = true
 workspace = true
 
 [dependencies.clap]
-version = "4.5.8"
-features = ["derive"]
+workspace = true
 
 [dependencies.service]
 workspace = true
