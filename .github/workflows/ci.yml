@@ -12,6 +12,12 @@ on:
 
 jobs:
   test:
+    strategy:
+      matrix:
+        features:
+          - --features=cli
+          - --features=server
+          - --features=cli,server
     name: Test
     runs-on: ubuntu-22.04
     steps:
@@ -29,10 +35,10 @@ jobs:
           cache-on-failure: true
       - name: Test
         run: |
-          cargo test --all --all-features
+          cargo test --all --features=vendored ${{ matrix.features }}
       - name: Run clippy
         uses: sksat/action-clippy@v1.0.0
         with:
           reporter: github-check
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          clippy_flags: --all-features
+          clippy_flags: --features=vendored ${{ matrix.features }}
