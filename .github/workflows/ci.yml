@@ -35,7 +35,7 @@ jobs:
           cache-on-failure: true
       - name: Test
         run: |
-          cargo test --workspace --no-default-features --features=vendored ${{ matrix.features }}
+          cargo test --workspace --all-features
       - name: Run clippy
         uses: sksat/action-clippy@v1.0.0
         with:
