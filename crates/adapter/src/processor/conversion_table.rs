@@ -5,12 +5,12 @@ use phoneme::{assembler::Assembler, phoneme_pair::PhonemePairs};
 
 use crate::converter::Converter;
 
-#[derive(Debug)]
-pub struct ConversionTable<Converter> {
+#[derive(Debug, Default)]
+pub struct ConversionTable<Converter = KatakanaConverter> {
     converter: Converter,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct KatakanaConverter;
 
 impl<KatakanaConverter> Transliterator for ConversionTable<KatakanaConverter>

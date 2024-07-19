@@ -10,7 +10,7 @@ pub struct Katakana {
     pub pronunciation: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct KatakanaService<Processor> {
     transliterator: Processor,
 }

@@ -11,7 +11,7 @@ pub struct Arpabet {
     pub pronunciation: Vec<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct ArpabetService<Processor> {
     transcriber: Processor,
 }
