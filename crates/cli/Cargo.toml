@@ -1,0 +1,13 @@
+[package]
+name = "cli"
+edition = "2021"
+version.workspace = true
+
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.clap]
+workspace = true
+
+[dependencies.service]
+workspace = true

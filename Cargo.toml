@@ -1,20 +1,28 @@
 [workspace]
 members = [
     "crates/adapter",
+    "crates/cli",
     "crates/domain",
     "crates/flite",
     "crates/flite-src",
     "crates/flite-sys",
-    "crates/kanatrans-web-app",
+    "crates/kanatrans",
     "crates/phoneme",
     "crates/server",
     "crates/service",
 ]
-default-members = ["crates/kanatrans-web-app"]
+default-members = ["crates/kanatrans"]
 resolver = "2"
+
+[workspace.package]
+version = "0.2.3"
 
 [workspace.dependencies.anyhow]
 version = "1.0.86"
+
+[workspace.dependencies.clap]
+version = "4.5.8"
+features = ["derive"]
 
 [workspace.dependencies.domain]
 path = "crates/domain"
