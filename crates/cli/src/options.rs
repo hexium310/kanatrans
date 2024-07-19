@@ -6,22 +6,22 @@ use service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterfa
 
 use crate::runner::Runner;
 
-#[derive(Args)]
+#[derive(Args, Debug, PartialEq)]
 pub struct Options {
     /// Words composed of English alphabet
     pub words: Vec<String>,
     #[command(flatten)]
-    pub(crate) output_kind: OutputKindArgs,
+    pub output_kind: OutputKindArgs,
 }
 
-#[derive(Args)]
+#[derive(Args, Debug, PartialEq)]
 pub struct OutputKindArgs {
     /// Print APRAbet
     #[arg(short, long)]
-    pub(crate) arpabet: bool,
+    pub arpabet: bool,
     /// Print Katakana (default: true)
     #[arg(short, long)]
-    pub(crate) katakana: bool,
+    pub katakana: bool,
 }
 
 pub enum OutputKind {
