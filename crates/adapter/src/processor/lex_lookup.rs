@@ -4,12 +4,12 @@ use flite::lexicon::lexicon;
 
 use crate::{command::Executor, error::ProcessorError};
 
-#[derive(Debug)]
-pub struct LexLookup<CommandExecutor> {
+#[derive(Debug, Default)]
+pub struct LexLookup<CommandExecutor = LexLookupExecutor> {
     executor: CommandExecutor,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct LexLookupExecutor;
 
 impl<CommandExecutor> Transcriber for LexLookup<CommandExecutor>

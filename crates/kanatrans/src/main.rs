@@ -1,7 +1,4 @@
-use adapter::processor::{
-    conversion_table::{ConversionTable, KatakanaConverter},
-    lex_lookup::{LexLookup, LexLookupExecutor},
-};
+use adapter::processor::{conversion_table::ConversionTable, lex_lookup::LexLookup};
 use clap::Parser;
 use command::Command;
 use service::{arpabet::ArpabetService, katakana::KatakanaService};
@@ -10,8 +7,8 @@ mod command;
 
 #[tokio::main]
 async fn main() {
-    let arpabet_service = ArpabetService::new(LexLookup::new(LexLookupExecutor));
-    let katakana_service = KatakanaService::new(ConversionTable::new(KatakanaConverter));
+    let arpabet_service = ArpabetService::<LexLookup>::default();
+    let katakana_service = KatakanaService::<ConversionTable>::default();
 
     let command = Command::parse();
 
