@@ -51,11 +51,14 @@ fn builder() -> Builder {
 
     match env::var_os("CARGO_CFG_TARGET_OS") {
         Some(os) if os == "wasi" => {
-            let wasi_sdk_path = env::var("WASI_SDK_PATH").unwrap();
+            let wasi_sdk_path = PathBuf::from(env::var_os("WASI_SDK_PATH").unwrap());
             let wasi_env = env::var("CARGO_CFG_TARGET_ENV").unwrap();
             builder.clang_args([
                 "-I",
-                &format!("{wasi_sdk_path}/share/wasi-sysroot/include/wasm32-wasi{wasi_env}"),
+                wasi_sdk_path
+                    .join(format!("share/wasi-sysroot/include/wasm32-wasi{wasi_env}"))
+                    .to_str()
+                    .unwrap(),
                 "-D",
                 "CST_NO_SOCKETS",
                 "-D",
