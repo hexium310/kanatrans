@@ -1,3 +1,5 @@
+use std::process::exit;
+
 use cli::runner::Runner;
 use service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterface};
 
@@ -13,5 +15,6 @@ pub(crate) async fn run<ArpabetService, KatakanaService>(
 {
     if let Err(err) = command.cli.run(arpabet_service, katakana_service).await {
         eprintln!("{err}");
+        exit(1);
     };
 }
