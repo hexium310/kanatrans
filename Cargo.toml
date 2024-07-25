@@ -37,9 +37,6 @@ version = "1.0.63"
 version = "1.0.204"
 features = ["derive"]
 
-[workspace.dependencies.once_cell]
-version = "1.19.0"
-
 [workspace.dependencies.pretty_assertions]
 version = "1.4.0"
 

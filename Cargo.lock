@@ -357,7 +357,6 @@ name = "flite"
 version = "0.0.0"
 dependencies = [
  "flite-sys",
- "once_cell",
 ]
 
 [[package]]
@@ -777,7 +776,6 @@ name = "phoneme"
 version = "0.0.0"
 dependencies = [
  "anyhow",
- "once_cell",
  "pretty_assertions",
  "thiserror",
  "tracing",

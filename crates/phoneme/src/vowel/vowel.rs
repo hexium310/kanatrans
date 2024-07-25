@@ -1,10 +1,8 @@
-use std::{collections::HashMap, ops::Deref};
-
-use once_cell::sync::Lazy;
+use std::{collections::HashMap, ops::Deref, sync::LazyLock};
 
 use super::pattern::{VowelPattern, VOWEL_BASE, VOWEL_PATTERNS};
 
-static VOWELS: Lazy<Vowel> = Lazy::new(Vowel::default);
+static VOWELS: LazyLock<Vowel> = LazyLock::new(Vowel::default);
 
 #[derive(Debug)]
 pub struct Vowel {

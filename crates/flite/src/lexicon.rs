@@ -1,13 +1,12 @@
-use std::{error::Error, ffi::CString, ptr::null};
+use std::{error::Error, ffi::CString, ptr::null, sync::LazyLock};
 
 use flite_sys::{cmu_lex_init, cst_lexicon, delete_lexicon, lex_lookup};
-use once_cell::sync::Lazy;
 
 use crate::{lts::Rules, Value};
 
 pub struct Lexicon(*mut cst_lexicon);
 
-static LEXICON: Lazy<Lexicon> = Lazy::new(|| unsafe { Lexicon::from_ptr(cmu_lex_init()) });
+static LEXICON: LazyLock<Lexicon> = LazyLock::new(|| unsafe { Lexicon::from_ptr(cmu_lex_init()) });
 
 pub fn lexicon() -> &'static Lexicon {
     &LEXICON

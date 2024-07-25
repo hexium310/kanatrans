@@ -1,6 +1,4 @@
-use std::{collections::HashMap, ops::Deref};
-
-use once_cell::sync::Lazy;
+use std::{collections::HashMap, ops::Deref, sync::LazyLock};
 
 use super::{
     cluster::{
@@ -10,7 +8,7 @@ use super::{
     pattern::{ConsonantPattern, CONSONANT_PATTERNS},
 };
 
-static CONSONANTS: Lazy<Consonant> = Lazy::new(Consonant::default);
+static CONSONANTS: LazyLock<Consonant> = LazyLock::new(Consonant::default);
 
 #[derive(Debug)]
 pub struct Consonant {

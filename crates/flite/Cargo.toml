@@ -7,6 +7,3 @@ vendored = ["flite-sys/vendored"]
 
 [dependencies.flite-sys]
 path = "../flite-sys"
-
-[dependencies.once_cell]
-workspace = true
