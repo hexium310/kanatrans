@@ -1,0 +1,9 @@
+[package]
+name = "try-wasi-flite"
+edition = "2021"
+
+[features]
+vendored = ["flite/vendored"]
+
+[dependencies.flite]
+path = "../flite"

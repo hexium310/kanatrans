@@ -10,6 +10,7 @@ members = [
     "crates/phoneme",
     "crates/server",
     "crates/service",
+    "crates/try-wasi-flite",
 ]
 default-members = ["crates/kanatrans"]
 resolver = "2"
