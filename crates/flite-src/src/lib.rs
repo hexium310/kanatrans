@@ -54,8 +54,21 @@ impl Build {
         let mut configure = Command::new("./configure");
         configure
             .arg(format!("--prefix={}", &install_dir.to_str().unwrap()))
-            .arg("--with-audio=oss")
+            .arg("--with-audio=none")
             .current_dir(&inner_dir);
+
+        if env::var_os("CARGO_CFG_TARGET_OS").is_some_and(|os| os == "wasi") {
+            let wasi_sdk_path = PathBuf::from(env::var_os("WASI_SDK_PATH").unwrap());
+            configure
+                .arg("--host=wasm32-wasi")
+                .arg(format!("CC={}", wasi_sdk_path.join("bin/clang").to_str().unwrap()))
+                .arg(format!("AR={}", wasi_sdk_path.join("bin/llvm-ar").to_str().unwrap()))
+                .arg(format!(
+                    "RANLIB={}",
+                    wasi_sdk_path.join("bin/llvm-ranlib").to_str().unwrap()
+                ));
+        }
+
         self.run_command(configure, "configuring flite");
 
         let mut install = Command::new("make");

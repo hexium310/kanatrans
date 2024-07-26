@@ -42,12 +42,34 @@ fn builder() -> Builder {
     artifacts.print_cargo_metadata();
 
     let include_dir = artifacts.include_dir();
-    bindgen::builder().header_contents("includes.h", INCLUDES).clang_args([
+    let builder = bindgen::builder().header_contents("includes.h", INCLUDES).clang_args([
         "-I",
         &include_dir.display().to_string(),
         "-I",
         &include_dir.join("flite").display().to_string(),
-    ])
+    ]);
+
+    match env::var_os("CARGO_CFG_TARGET_OS") {
+        Some(os) if os == "wasi" => {
+            let wasi_sdk_path = PathBuf::from(env::var_os("WASI_SDK_PATH").unwrap());
+            let wasi_env = env::var("CARGO_CFG_TARGET_ENV").unwrap();
+            builder.clang_args([
+                "-I",
+                wasi_sdk_path
+                    .join(format!("share/wasi-sysroot/include/wasm32-wasi{wasi_env}"))
+                    .to_str()
+                    .unwrap(),
+                "-D",
+                "CST_NO_SOCKETS",
+                "-D",
+                "DIE_ON_ERROR",
+                "-D",
+                "WASM32_WASI",
+                "-fvisibility=default",
+            ])
+        },
+        _ => builder,
+    }
 }
 
 #[cfg(not(feature = "vendored"))]
