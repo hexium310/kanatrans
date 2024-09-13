@@ -18,7 +18,7 @@ resolver = "2"
 version = "0.2.3"
 
 [workspace.dependencies.anyhow]
-version = "1.0.86"
+version = "1.0.88"
 
 [workspace.dependencies.clap]
 version = "4.5.17"
