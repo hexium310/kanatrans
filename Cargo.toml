@@ -38,7 +38,7 @@ version = "1.0.210"
 features = ["derive"]
 
 [workspace.dependencies.pretty_assertions]
-version = "1.4.0"
+version = "1.4.1"
 
 [workspace.dependencies.tracing]
 version = "0.1.40"
