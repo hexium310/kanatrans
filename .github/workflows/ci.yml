@@ -37,7 +37,7 @@ jobs:
         run: |
           cargo test --workspace --all-features
       - name: Run clippy
-        uses: sksat/action-clippy@v1.0.0
+        uses: sksat/action-clippy@v1.1.0
         with:
           reporter: github-check
           github_token: ${{ secrets.GITHUB_TOKEN }}
