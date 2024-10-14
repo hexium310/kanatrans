@@ -110,5 +110,11 @@ mod tests {
             .convert(&["f", "uw1", "d"])
             .unwrap();
         assert_eq!(food, "フード");
+
+        #[rustfmt::skio]
+        let around = converter
+            .convert(&["er0", "aw1", "n", "d"])
+            .unwrap();
+        assert_eq!(around, "アラウンド");
     }
 }

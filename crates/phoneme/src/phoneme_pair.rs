@@ -30,62 +30,67 @@ impl<'a> Deref for PhonemePairs<'a> {
 
 impl<'a> From<&'a [&str]> for PhonemePairs<'a> {
     fn from(value: &'a [&str]) -> Self {
-        let phoneme_pairs =
-            value
-                .iter()
-                .enumerate()
-                .fold(vec![], |mut accumulator: Vec<PhonemePair>, (index, phoneme)| {
-                    let previous_pair = accumulator.last();
-                    let phoneme = Phoneme::from(phoneme.trim_matches(char::is_numeric));
+        let phoneme_pairs = value
+            .iter()
+            .enumerate()
+            .fold(vec![], |mut accumulator: Vec<PhonemePair>, (index, phoneme)| {
+                let previous_pair = accumulator.last();
+                let phoneme = Phoneme::from(phoneme.trim_matches(char::is_numeric));
 
-                    let previous_pair = match previous_pair {
-                        Some(previous_pair) => previous_pair,
-                        None => return vec![PhonemePair::from(phoneme)],
-                    };
+                let previous_pair = match previous_pair {
+                    Some(previous_pair) => previous_pair,
+                    None => return vec![PhonemePair::from(phoneme)],
+                };
 
-                    let phoneme_pair = match (phoneme, *previous_pair) {
-                        (Phoneme::Consonant(consonant), PhonemePair::Consonant(previous_consonant)) => {
-                            let consonant_cluster = consonants()
-                                .get_cluster(&previous_consonant, consonant)
-                                .map(|cluster| Phoneme::from(cluster.cluster));
+                let phoneme_pair = match (phoneme, *previous_pair) {
+                    (Phoneme::Consonant(consonant), PhonemePair::Consonant(previous_consonant)) => {
+                        let consonant_cluster = consonants()
+                            .get_cluster(&previous_consonant, consonant)
+                            .map(|cluster| Phoneme::from(cluster.cluster));
 
-                            match consonant_cluster {
-                                Some(consonant_cluster) => {
-                                    accumulator.truncate(accumulator.len() - 1);
+                        match consonant_cluster {
+                            Some(consonant_cluster) => {
+                                accumulator.truncate(accumulator.len() - 1);
 
-                                    PhonemePair::Consonant(consonant_cluster)
-                                },
-                                None => PhonemePair::Consonant(phoneme),
-                            }
-                        },
-                        (Phoneme::Consonant("r"), _) if index + 1 == value.len() => PhonemePair::Vowel(Phoneme::Vowel("er")),
-                        (Phoneme::Consonant(_), _) => PhonemePair::Consonant(phoneme),
-                        (Phoneme::Vowel(_), PhonemePair::Consonant(previous_consonant)) => {
-                            let phoneme_pair = PhonemePair::Both(previous_consonant, phoneme);
+                                PhonemePair::Consonant(consonant_cluster)
+                            },
+                            None => PhonemePair::Consonant(phoneme),
+                        }
+                    },
+                    (Phoneme::Consonant("r"), _) if index + 1 == value.len() => PhonemePair::Vowel(Phoneme::Vowel("er")),
+                    (Phoneme::Consonant(_), _) => PhonemePair::Consonant(phoneme),
+                    (Phoneme::Vowel(_), PhonemePair::Consonant(previous_consonant)) => {
+                        let phoneme_pair = PhonemePair::Both(previous_consonant, phoneme);
 
-                            accumulator.truncate(accumulator.len() - 1);
+                        accumulator.truncate(accumulator.len() - 1);
 
-                            phoneme_pair
-                        },
-                        (Phoneme::Vowel(_), PhonemePair::Both(previous_consonant, Phoneme::Vowel("er"))) => {
-                            let phoneme_pair = PhonemePair::Both(previous_consonant, Phoneme::Vowel("eh"));
+                        phoneme_pair
+                    },
+                    (Phoneme::Vowel(_), PhonemePair::Both(previous_consonant, Phoneme::Vowel("er"))) => {
+                        let phoneme_pair = PhonemePair::Both(previous_consonant, Phoneme::Vowel("eh"));
 
-                            accumulator.truncate(accumulator.len() - 1);
-                            accumulator.push(phoneme_pair);
+                        accumulator.truncate(accumulator.len() - 1);
+                        accumulator.push(phoneme_pair);
 
-                            PhonemePair::Both(Phoneme::Consonant("r"), phoneme)
-                        },
-                        (Phoneme::Vowel(_), _) => PhonemePair::Vowel(phoneme),
-                        (Phoneme::Unexpected(unexpected), _) => {
-                            tracing::warn!("unexpected {unexpected} appeared in {value:?}, parsing skipped");
+                        PhonemePair::Both(Phoneme::Consonant("r"), phoneme)
+                    },
+                    (Phoneme::Vowel(_), PhonemePair::Vowel(Phoneme::Vowel("er"))) => {
+                        accumulator.truncate(accumulator.len() - 1);
+                        accumulator.push(PhonemePair::Vowel(Phoneme::Vowel("aa")));
 
-                            return accumulator;
-                        },
-                    };
+                        PhonemePair::Both(Phoneme::Consonant("r"), phoneme)
+                    },
+                    (Phoneme::Vowel(_), _) => PhonemePair::Vowel(phoneme),
+                    (Phoneme::Unexpected(unexpected), _) => {
+                        tracing::warn!("unexpected {unexpected} appeared in {value:?}, parsing skipped");
 
-                    accumulator.push(phoneme_pair);
-                    accumulator
-                });
+                        return accumulator;
+                    },
+                };
+
+                accumulator.push(phoneme_pair);
+                accumulator
+            });
 
         Self(phoneme_pairs)
     }
@@ -380,13 +385,27 @@ mod tests {
     }
 
     #[test]
-    fn er_before_vowel() {
+    fn er_before_vowel_and_after_consonant() {
         let arpabet = ["n", "er", "ax"].as_slice();
         let phoneme_pairs = PhonemePairs::from(arpabet);
         assert_eq!(
             phoneme_pairs,
             PhonemePairs(vec![
                 PhonemePair::Both(Phoneme::Consonant("n"), Phoneme::Vowel("eh")),
+                PhonemePair::Both(Phoneme::Consonant("r"), Phoneme::Vowel("ax")),
+            ])
+        );
+    }
+
+
+    #[test]
+    fn heading_er_with_vowel() {
+        let arpabet = ["er", "ax"].as_slice();
+        let phoneme_pairs = PhonemePairs::from(arpabet);
+        assert_eq!(
+            phoneme_pairs,
+            PhonemePairs(vec![
+                PhonemePair::Vowel(Phoneme::Vowel("aa")),
                 PhonemePair::Both(Phoneme::Consonant("r"), Phoneme::Vowel("ax")),
             ])
         );
