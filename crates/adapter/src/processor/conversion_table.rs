@@ -82,15 +82,27 @@ mod tests {
         assert_eq!(threshold, "スレショウルド");
 
         #[rustfmt::skip]
-        let akabane = converter
+        let get = converter
             .convert(&["g", "eh1", "t", "s"])
             .unwrap();
-        assert_eq!(akabane, "ゲツ");
+        assert_eq!(get, "ゲツ");
 
         #[rustfmt::skip]
         let akabane = converter
             .convert(&["k", "r", "iy0", "ey1", "t"])
             .unwrap();
         assert_eq!(akabane, "クリーエイト");
+
+        #[rustfmt::skio]
+        let support = converter
+            .convert(&["s", "ax0", "p", "ao", "r", "t"])
+            .unwrap();
+        assert_eq!(support, "サポート");
+
+        #[rustfmt::skio]
+        let atmosphere = converter
+            .convert(&["ae1", "t", "m", "ax0", "s", "f", "ih1", "r"])
+            .unwrap();
+        assert_eq!(atmosphere, "アトマスフィアー");
     }
 }
