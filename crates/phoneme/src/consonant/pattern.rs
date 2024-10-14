@@ -58,7 +58,7 @@ pub(crate) const CONSONANT_PATTERNS: [(&str, ConsonantPattern); 25] = [
     (
         "f",
         ConsonantPattern {
-            with_vowel: ["ファ", "フィ", "フュ", "フェ", "フォ"],
+            with_vowel: ["ファ", "フィ", "フ", "フェ", "フォ"],
             unit: "フ",
         },
     ),

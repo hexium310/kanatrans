@@ -104,5 +104,11 @@ mod tests {
             .convert(&["ae1", "t", "m", "ax0", "s", "f", "ih1", "r"])
             .unwrap();
         assert_eq!(atmosphere, "アトマスフィアー");
+
+        #[rustfmt::skio]
+        let food = converter
+            .convert(&["f", "uw1", "d"])
+            .unwrap();
+        assert_eq!(food, "フード");
     }
 }
