@@ -34,7 +34,7 @@ path = "crates/phoneme"
 version = "1.0.66"
 
 [workspace.dependencies.serde]
-version = "1.0.213"
+version = "1.0.214"
 features = ["derive"]
 
 [workspace.dependencies.pretty_assertions]
