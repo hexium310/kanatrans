@@ -11,8 +11,10 @@ RUN --mount=type=cache,id=api:/var/cache/apt,target=/var/cache/apt \
 FROM runtime AS development
 
 FROM runtime AS builder
-COPY . .
-RUN --mount=type=cache,id=api:/usr/local/cargo/registry,target=/usr/local/cargo/registry \
+RUN --mount=type=bind,source=crates,target=crates \
+    --mount=type=bind,source=Cargo.toml,target=Cargo.toml \
+    --mount=type=bind,source=Cargo.lock,target=Cargo.lock \
+    --mount=type=cache,id=api:/usr/local/cargo/registry,target=/usr/local/cargo/registry \
     --mount=type=cache,id=api:/usr/src/target,target=/usr/src/target \
     cargo build --release --no-default-features --features=vendored,server \
     && cp target/release/kanatrans /usr/local/bin/kanatrans
