@@ -19,7 +19,7 @@ jobs:
           - --features=server
           - --features=cli,server
     name: Test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -42,3 +42,20 @@ jobs:
           reporter: github-check
           github_token: ${{ secrets.GITHUB_TOKEN }}
           clippy_flags: --no-default-features --features=vendored ${{ matrix.features }}
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/bake-action@v5
+        with:
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
