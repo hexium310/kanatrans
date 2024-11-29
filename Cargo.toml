@@ -41,7 +41,7 @@ features = ["derive"]
 version = "1.4.1"
 
 [workspace.dependencies.tracing]
-version = "0.1.40"
+version = "0.1.41"
 
 [workspace.dependencies.service]
 path = "crates/service"
