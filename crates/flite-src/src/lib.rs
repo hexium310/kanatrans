@@ -36,7 +36,7 @@ impl Build {
 
     pub fn build(&mut self) -> Artifacts {
         let out_dir = self.out_dir.as_ref().expect("OUT_DIR not set");
-        let build_dir = out_dir.join("build");
+        let build_dir = out_dir.join("src");
         let install_dir = out_dir.join("install");
 
         if build_dir.exists() {
@@ -46,16 +46,15 @@ impl Build {
             fs::remove_dir_all(&install_dir).unwrap();
         }
 
-        fs::create_dir_all(&build_dir).unwrap();
+        fs::create_dir_all(out_dir).unwrap();
 
-        let inner_dir = build_dir.join("src");
-        copy_dir(source_dir(), &inner_dir).unwrap();
+        copy_dir(source_dir(), &build_dir).unwrap();
 
         let mut configure = Command::new("./configure");
         configure
             .arg(format!("--prefix={}", &install_dir.to_str().unwrap()))
             .arg("--with-audio=none")
-            .current_dir(&inner_dir);
+            .current_dir(&build_dir);
 
         if env::var_os("CARGO_CFG_TARGET_OS").is_some_and(|os| os == "wasi") {
             let wasi_sdk_path = PathBuf::from(env::var_os("WASI_SDK_PATH").unwrap());
@@ -72,14 +71,14 @@ impl Build {
         self.run_command(configure, "configuring flite");
 
         let mut install = Command::new("make");
-        install.current_dir(&inner_dir);
+        install.current_dir(&build_dir);
         self.run_command(install, "building flite");
 
         let mut install = Command::new("make");
-        install.arg("install").current_dir(&inner_dir);
+        install.arg("install").current_dir(&build_dir);
         self.run_command(install, "installing flite");
 
-        for entry in fs::read_dir(inner_dir.join("lang")).unwrap() {
+        for entry in fs::read_dir(build_dir.join("lang")).unwrap() {
             let entry = entry.unwrap();
             let file_type = entry.file_type().unwrap();
             if !file_type.is_dir() {
@@ -105,7 +104,7 @@ impl Build {
             }
         }
 
-        fs::remove_dir_all(&inner_dir).unwrap();
+        fs::remove_dir_all(&build_dir).unwrap();
 
         Artifacts {
             include_dir: install_dir.join("include"),
