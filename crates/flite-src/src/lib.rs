@@ -70,9 +70,9 @@ impl Build {
 
         self.run_command(configure, "configuring flite");
 
-        let mut install = Command::new("make");
-        install.current_dir(&build_dir);
-        self.run_command(install, "building flite");
+        let mut build = Command::new("make");
+        build.current_dir(&build_dir);
+        self.run_command(build, "building flite");
 
         let mut install = Command::new("make");
         install.arg("install").current_dir(&build_dir);
