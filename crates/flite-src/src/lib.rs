@@ -98,7 +98,7 @@ impl Build {
                 }
 
                 let path = entry.path();
-                if !path.extension().is_some_and(|s| s == "h") {
+                if path.extension().is_none_or(|s| s != "h") {
                     continue;
                 }
 
