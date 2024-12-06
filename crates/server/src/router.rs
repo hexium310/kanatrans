@@ -3,10 +3,11 @@ use std::{net::Ipv6Addr, sync::Arc, time::Duration};
 use anyhow::{Context, Error, Result};
 use axum::{http::Response, routing::get, Router};
 use service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterface};
-use tokio::{
-    net::TcpListener,
-    signal::unix::{signal, SignalKind},
-};
+use tokio::net::TcpListener;
+#[cfg(unix)]
+use tokio::signal::unix::{signal, SignalKind};
+#[cfg(windows)]
+use tokio::signal::windows::{ctrl_c, ctrl_close};
 use tower_http::trace::TraceLayer;
 use tracing::Span;
 
@@ -56,12 +57,32 @@ where
         axum::serve(listener, app.into_make_service()).await.unwrap();
     });
 
+    wait_for_signal().await?;
+
+    Ok(())
+}
+
+#[cfg(unix)]
+async fn wait_for_signal() -> Result<()> {
     let mut interrupt = signal(SignalKind::interrupt())?;
     let mut terminate = signal(SignalKind::terminate())?;
 
     tokio::select! {
         _ = interrupt.recv() => {},
         _ = terminate.recv() => {},
+    }
+
+    Ok(())
+}
+
+#[cfg(windows)]
+async fn wait_for_signal() -> Result<()> {
+    let mut ctrl_c = ctrl_c()?;
+    let mut ctrl_close = ctrl_close()?;
+
+    tokio::select! {
+        _ = ctrl_c.recv() => {},
+        _ = ctrl_close.recv() => {},
     };
 
     Ok(())

@@ -6,6 +6,7 @@ use std::{
 };
 
 use copy_dir::copy_dir;
+use path_slash::PathBufExt;
 
 pub fn source_dir() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("flite")
@@ -50,9 +51,10 @@ impl Build {
 
         copy_dir(source_dir(), &build_dir).unwrap();
 
-        let mut configure = Command::new("./configure");
+        let mut configure = Command::new("sh");
         configure
-            .arg(format!("--prefix={}", &install_dir.to_str().unwrap()))
+            .arg("./configure")
+            .arg(format!("--prefix={}", &install_dir.to_slash().unwrap()))
             .arg("--with-audio=none")
             .current_dir(&build_dir);
 
