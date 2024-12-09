@@ -14,12 +14,20 @@ jobs:
   test:
     strategy:
       matrix:
+        targets:
+          - os: ubuntu-latest
+            toolchain: stable
+          - os: windows-latest
+            toolchain: stable-x86_64-pc-windows-gnu
         features:
           - --features=cli
           - --features=server
           - --features=cli,server
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.targets.os }}
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,6 +37,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
+          toolchain: ${{ matrix.targets.toolchain }}
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
         with:
@@ -38,6 +47,7 @@ jobs:
           cargo test --workspace --all-features
       - name: Run clippy
         uses: sksat/action-clippy@v1.1.0
+        if: ${{ runner.os == 'Linux' }}
         with:
           reporter: github-check
           github_token: ${{ secrets.GITHUB_TOKEN }}
