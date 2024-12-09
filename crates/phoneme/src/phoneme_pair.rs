@@ -106,7 +106,7 @@ impl<'a> From<Phoneme<'a>> for PhonemePair<'a> {
     }
 }
 
-impl<'a> Assembler for PhonemePair<'a> {
+impl Assembler for PhonemePair<'_> {
     fn assemble(&self) -> Result<Cow<'_, str>, AssemblerError> {
         match *self {
             Self::Both(consonant, vowel) => self.assemble_both(consonant, vowel),

@@ -31,4 +31,4 @@ impl<'a> From<&'a str> for Phoneme<'a> {
     }
 }
 
-impl<'a> Phoneme<'a> {}
+impl Phoneme<'_> {}
