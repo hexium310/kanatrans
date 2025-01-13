@@ -33,7 +33,7 @@ where
         .context("KANATRANS_PORT should be set port")?;
 
     let arpabet = Router::new()
-        .route("/:word", get(arpabet::get))
+        .route("/{word}", get(arpabet::get))
         .with_state(Arc::new(arpabet_service));
 
     let katakana = Router::new()
