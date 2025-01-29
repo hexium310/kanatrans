@@ -2,8 +2,8 @@ name: Bump
 on:
   workflow_dispatch:
     inputs:
-      version_part:
-        description: 'Version part to bump'
+      strategy:
+        description: The strategy to bump the version number.
         required: true
         default: patch
         type: choice
@@ -19,8 +19,16 @@ on:
 jobs:
   bump:
     name: Bump
-    uses: hexium310/workflows/.github/workflows/bump.yml@master
-    with:
-      version_part: ${{ github.event.inputs.version_part }}
-      package: ${{ github.event.inputs.package }}
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Bump
+        uses: hexium310/workflows/.github/actions/bump@master
+        with:
+          strategy: ${{ github.event.inputs.strategy }}
+          package-ecosystems: '["cargo"]'
+          cargo-package: ${{ github.event.inputs.package }}
+          token: ${{ secrets.BUMP_TOKEN }}
