@@ -7,6 +7,8 @@ vendored = ["flite-src"]
 
 [build-dependencies.bindgen]
 version = "0.71.1"
+default-features = false
+features = ["runtime"]
 
 [build-dependencies.flite-src]
 optional = true
