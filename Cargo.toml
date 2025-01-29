@@ -15,7 +15,7 @@ default-members = ["crates/kanatrans"]
 resolver = "2"
 
 [workspace.package]
-version = "0.2.4"
+version = "0.2.5"
 
 [workspace.dependencies.anyhow]
 version = "1.0.95"
