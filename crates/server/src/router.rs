@@ -1,25 +1,16 @@
-use std::{net::Ipv6Addr, sync::Arc, time::Duration};
+use std::{net::Ipv6Addr, time::Duration};
 
 use anyhow::{Context, Error, Result};
-use axum::{http::Response, routing::get, Router};
-use service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterface};
+use axum::{body::Body, extract::Request, http::Response, Router};
 use tokio::{
     net::TcpListener,
     signal::unix::{signal, SignalKind},
 };
+use tower::service_fn;
 use tower_http::trace::TraceLayer;
 use tracing::Span;
 
-use crate::{arpabet, katakana};
-
-pub async fn start<ArpabetService, KatakanaService>(
-    arpabet_service: ArpabetService,
-    katakana_service: KatakanaService,
-) -> Result<()>
-where
-    ArpabetService: ArpabetServiceInterface,
-    KatakanaService: KatakanaServiceInterface,
-{
+pub async fn start() -> Result<()> {
     let trace_layer = TraceLayer::new_for_http()
         .on_request(())
         .on_response(|response: &Response<_>, latency: Duration, _span: &Span| {
@@ -32,20 +23,14 @@ where
         .and_then(|port| port.parse::<u16>().map_err(Error::from))
         .context("KANATRANS_PORT should be set port")?;
 
-    let arpabet = Router::new()
-        .route("/{word}", get(arpabet::get))
-        .with_state(Arc::new(arpabet_service));
-
-    let katakana = Router::new()
-        .route("/", get(katakana::get))
-        .with_state(Arc::new(katakana_service));
+    let listener = TcpListener::bind((Ipv6Addr::UNSPECIFIED, port)).await?;
 
     let app = Router::new()
-        .nest("/arpabet", arpabet)
-        .nest("/katakana", katakana)
+        .fallback_service(service_fn(|req: Request| async move {
+            let router = service::routing::Router::<Body>::default();
+            router.route(req).await
+        }))
         .layer(trace_layer);
-
-    let listener = TcpListener::bind((Ipv6Addr::UNSPECIFIED, port)).await?;
 
     tracing::debug!(
         "listening on {}",

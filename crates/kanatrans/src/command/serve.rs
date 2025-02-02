@@ -1,17 +1,10 @@
 use std::process::exit;
 
 use server::router;
-use service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterface};
 use time::macros::format_description;
 use tracing_subscriber::{fmt::time::UtcTime, EnvFilter};
 
-pub(crate) async fn run<ArpabetService, KatakanaService>(
-    arpabet_service: ArpabetService,
-    katakana_service: KatakanaService,
-) where
-    ArpabetService: ArpabetServiceInterface,
-    KatakanaService: KatakanaServiceInterface,
-{
+pub(crate) async fn run() {
     let local_timer = UtcTime::new(format_description!(
         "[year]-[month]-[day] [hour]:[minute]:[second].[subsecond digits:3]+[offset_hour]:[offset_minute]"
     ));
@@ -20,7 +13,7 @@ pub(crate) async fn run<ArpabetService, KatakanaService>(
         .with_timer(local_timer)
         .init();
 
-    if let Err(err) = router::start(arpabet_service, katakana_service).await {
+    if let Err(err) = router::start().await {
         tracing::error!("failed to serve:\n{err:?}");
         exit(1);
     };

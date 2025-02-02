@@ -1,9 +1,13 @@
-use std::{fmt::Debug, future::Future, ops::Deref};
+use std::{collections::HashMap, convert::Infallible, fmt::Debug, future::Future, ops::Deref};
 
 use domain::processor::transcriber::Transcriber;
+use http::{Request, Response};
 use serde::{Deserialize, Serialize};
 
-use crate::error::ServiceError;
+use crate::{
+    error::ServiceError,
+    service::{Body, Handler},
+};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Arpabet {
@@ -39,6 +43,27 @@ where
         };
 
         Ok(response)
+    }
+}
+
+impl<RequestBody, Processor> Handler<RequestBody> for ArpabetService<Processor>
+where
+    Processor: Transcriber<Target: Deref<Target = [String]>> + Debug + Send + Sync + 'static,
+    RequestBody: Send,
+{
+    async fn handle(&self, req: Request<RequestBody>) -> Result<Response<Body>, Infallible> {
+        let word = req
+            .extensions()
+            .get::<HashMap<String, String>>()
+            .and_then(|params| params.get("word"))
+            .expect("{word} path parameter must be required");
+
+        match self.get(word.to_owned()).await {
+            Ok(response) => Ok(Response::new(Body::from(
+                serde_json::to_vec(&response).expect("Failed to serialize arpabet response body"),
+            ))),
+            Err(err) => Ok(err.into_response()),
+        }
     }
 }
 

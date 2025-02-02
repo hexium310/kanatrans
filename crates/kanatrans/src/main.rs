@@ -15,7 +15,7 @@ async fn main() {
     match command.kind() {
         command::CommandKind::Serve => {
             #[cfg(feature = "server")]
-            command::serve::run(arpabet_service, katakana_service).await;
+            command::serve::run().await;
         },
         command::CommandKind::Cli => {
             #[cfg(feature = "cli")]

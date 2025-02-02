@@ -2,16 +2,43 @@
 name = "service"
 edition = "2021"
 
+[dependencies.adapter]
+path = "../adapter"
+
 [dependencies.anyhow]
 workspace = true
+
+[dependencies.bytes]
+version = "1.8.0"
 
 [dependencies.domain]
 workspace = true
 
+[dependencies.http]
+version = "1.2.0"
+
+[dependencies.http-body]
+version = "1.0.1"
+
+[dependencies.http-body-util]
+version = "0.1.2"
+
+[dependencies.matchit]
+version = "0.8.4"
+
 [dependencies.serde]
 workspace = true
 
+[dependencies.serde_json]
+version = "1.0.137"
+
+[dependencies.serde_qs]
+version = "0.13.0"
+
 [dependencies.thiserror]
+workspace = true
+
+[dependencies.tower]
 workspace = true
 
 [dependencies.tracing]
