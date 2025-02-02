@@ -1,9 +1,10 @@
-use std::{fmt::Debug, future::Future};
+use std::{convert::Infallible, fmt::Debug, future::Future};
 
 use domain::processor::transliterator::Transliterator;
+use http::{Request, Response};
 use serde::{Deserialize, Serialize};
 
-use crate::error::ServiceError;
+use crate::{error::ServiceError, Body, Handler};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Katakana {
@@ -37,6 +38,29 @@ where
         };
 
         Ok(response)
+    }
+}
+
+impl<RequestBody, Processor> Handler<RequestBody> for KatakanaService<Processor>
+where
+    Processor: Transliterator<Target: Into<String>> + Debug + Send + Sync + 'static,
+    RequestBody: Send,
+{
+    async fn handle(&self, req: Request<RequestBody>) -> Result<Response<Body>, Infallible> {
+        #[derive(Debug, Deserialize)]
+        struct Query {
+            pronunciation: String,
+        }
+
+        let query = req.uri().query().unwrap_or_default();
+        let query = serde_qs::from_str::<Query>(query).unwrap();
+
+        match self.get(&query.pronunciation.split(" ").collect::<Vec<_>>()).await {
+            Ok(response) => Ok(Response::new(Body::from(
+                serde_json::to_vec(&response).expect("Failed to serialize katakana response body"),
+            ))),
+            Err(err) => Ok(err.into_response()),
+        }
     }
 }
 

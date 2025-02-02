@@ -2,6 +2,9 @@
 name = "flite-sys"
 edition = "2021"
 
+[lib]
+doctest = false
+
 [features]
 vendored = ["flite-src"]
 

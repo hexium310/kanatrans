@@ -2,5 +2,8 @@
 name = "flite-src"
 edition = "2021"
 
+[lib]
+doctest = false
+
 [dependencies.copy_dir]
 version = "0.1.3"

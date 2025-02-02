@@ -2,24 +2,24 @@
 name = "server"
 edition = "2021"
 
+[lib]
+doctest = false
+
 [dependencies.anyhow]
 workspace = true
 
 [dependencies.axum]
 version = "0.8.1"
 
-[dependencies.serde]
-workspace = true
-
 [dependencies.service]
-workspace = true
-
-[dependencies.thiserror]
 workspace = true
 
 [dependencies.tokio]
 workspace = true
 features = ["net", "signal"]
+
+[dependencies.tower]
+workspace = true
 
 [dependencies.tower-http]
 version = "0.6.2"
