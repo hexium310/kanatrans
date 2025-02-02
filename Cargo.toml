@@ -48,3 +48,6 @@ path = "crates/service"
 
 [workspace.dependencies.tokio]
 version = "1.43.0"
+
+[profile.dev.package."*"]
+debug = false
