@@ -2,6 +2,9 @@
 name = "service"
 edition = "2021"
 
+[lib]
+doctest = false
+
 [dependencies.anyhow]
 workspace = true
 

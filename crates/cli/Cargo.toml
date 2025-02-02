@@ -3,6 +3,9 @@ name = "cli"
 edition = "2021"
 version.workspace = true
 
+[lib]
+doctest = false
+
 [dependencies.anyhow]
 workspace = true
 
