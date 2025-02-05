@@ -1,5 +1,10 @@
-use std::{fmt::Debug, future::Future, ops::Deref};
+use std::{fmt::Debug, future::Future, ops::Deref, sync::Arc};
 
+use axum::{
+    extract::{Path, State},
+    response::{IntoResponse, Response},
+    Json,
+};
 use domain::processor::transcriber::Transcriber;
 use serde::{Deserialize, Serialize};
 
@@ -46,4 +51,16 @@ impl<Processor> ArpabetService<Processor> {
     pub fn new(transcriber: Processor) -> Self {
         Self { transcriber }
     }
+}
+
+pub async fn handle<ArpabetService>(
+    State(arpabet_service): State<Arc<ArpabetService>>,
+    Path(word): Path<String>,
+) -> Result<Response, ServiceError>
+where
+    ArpabetService: ArpabetServiceInterface,
+{
+    let arpabet = arpabet_service.get(word).await?;
+
+    Ok(Json(arpabet).into_response())
 }

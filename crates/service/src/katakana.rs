@@ -1,5 +1,10 @@
-use std::{fmt::Debug, future::Future};
+use std::{fmt::Debug, future::Future, sync::Arc};
 
+use axum::{
+    extract::{Query, State},
+    response::{IntoResponse, Response},
+    Json,
+};
 use domain::processor::transliterator::Transliterator;
 use serde::{Deserialize, Serialize};
 
@@ -13,6 +18,12 @@ pub struct Katakana {
 #[derive(Debug, Default)]
 pub struct KatakanaService<Processor> {
     transliterator: Processor,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct Params {
+    pub word: Option<String>,
+    pub pronunciation: String,
 }
 
 pub trait KatakanaServiceInterface: Send + Sync + 'static {
@@ -44,4 +55,18 @@ impl<Processor> KatakanaService<Processor> {
     pub fn new(transliterator: Processor) -> Self {
         Self { transliterator }
     }
+}
+
+pub async fn handle<KatakanaService>(
+    State(katakana_service): State<Arc<KatakanaService>>,
+    Query(params): Query<Params>,
+) -> Result<Response, ServiceError>
+where
+    KatakanaService: KatakanaServiceInterface,
+{
+    let katakana = katakana_service
+        .get(&params.pronunciation.split_whitespace().collect::<Vec<_>>())
+        .await?;
+
+    Ok(Json(katakana).into_response())
 }
