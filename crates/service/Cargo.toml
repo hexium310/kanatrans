@@ -8,14 +8,26 @@ doctest = false
 [dependencies.anyhow]
 workspace = true
 
+[dependencies.axum]
+version = "0.8.1"
+default-features = false
+features = ["json", "query"]
+
 [dependencies.domain]
 workspace = true
 
 [dependencies.serde]
 workspace = true
 
+[dependencies.serde_json]
+version = "1.0.137"
+
 [dependencies.thiserror]
 workspace = true
+
+[dependencies.tokio]
+workspace = true
+features = ["macros", "rt"]
 
 [dependencies.tracing]
 workspace = true
