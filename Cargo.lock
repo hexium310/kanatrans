@@ -460,6 +460,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "http-serde"
+version = "2.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0f056c8559e3757392c8d091e796416e4649d8e49e88b8d76df6c002f05027fd"
+dependencies = [
+ "http",
+ "serde",
+]
+
+[[package]]
 name = "httparse"
 version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -800,6 +810,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "problem_details"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7ee2055bf7d8f34bd11bf85388b878bf244256015f1ed290b6b717c0e97bb478"
+dependencies = [
+ "axum",
+ "http",
+ "http-serde",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.93"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -969,6 +992,7 @@ dependencies = [
  "anyhow",
  "axum",
  "domain",
+ "problem_details",
  "serde",
  "serde_json",
  "thiserror",

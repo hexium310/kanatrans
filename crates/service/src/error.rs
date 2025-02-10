@@ -1,8 +1,8 @@
 use axum::{
     http::StatusCode,
     response::{IntoResponse, Response},
-    Json,
 };
+use problem_details::ProblemDetails;
 
 #[derive(thiserror::Error, Debug)]
 pub enum ServiceError {
@@ -22,10 +22,10 @@ pub enum ServiceError {
 
 impl IntoResponse for ServiceError {
     fn into_response(self) -> Response {
-        (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(serde_json::json!({ "message": self.to_string() })),
-        )
-            .into_response()
+        let details = ProblemDetails::new()
+            .with_status(StatusCode::INTERNAL_SERVER_ERROR)
+            .with_detail(self.to_string());
+
+        details.into_response()
     }
 }

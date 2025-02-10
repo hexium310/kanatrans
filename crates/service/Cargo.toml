@@ -16,6 +16,10 @@ features = ["json", "query"]
 [dependencies.domain]
 workspace = true
 
+[dependencies.problem_details]
+version = "0.7.0"
+features = ["axum"]
+
 [dependencies.serde]
 workspace = true
 
