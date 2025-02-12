@@ -17,6 +17,9 @@ resolver = "2"
 [workspace.package]
 version = "0.2.5"
 
+[workspace.dependencies.adapter]
+path = "crates/adapter"
+
 [workspace.dependencies.anyhow]
 version = "1.0.95"
 
@@ -48,6 +51,9 @@ path = "crates/service"
 
 [workspace.dependencies.tokio]
 version = "1.43.0"
+
+[workspace.dependencies.mockall]
+version = "0.13.1"
 
 [profile.dev.package."*"]
 debug = false
