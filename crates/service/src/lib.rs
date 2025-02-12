@@ -7,3 +7,6 @@ pub use axum::{
     body::{Body, Bytes},
     Router,
 };
+
+#[cfg(test)]
+mod tests;

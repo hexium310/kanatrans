@@ -41,7 +41,8 @@ async fn invalid_word() {
         .method(Method::GET)
         // %E3%83%AF%E3%83%BC%E3%83%89: ワード
         .uri("/arpabet/%E3%83%AF%E3%83%BC%E3%83%89")
-        .body(Body::empty()) .unwrap();
+        .body(Body::empty())
+        .unwrap();
 
     let response = router.oneshot(req).await.unwrap();
 
