@@ -21,7 +21,7 @@ version = "0.2.5"
 version = "1.0.95"
 
 [workspace.dependencies.clap]
-version = "4.5.28"
+version = "4.5.29"
 features = ["derive"]
 
 [workspace.dependencies.domain]
