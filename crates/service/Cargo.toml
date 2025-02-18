@@ -35,3 +35,19 @@ features = ["macros", "rt"]
 
 [dependencies.tracing]
 workspace = true
+
+[dev-dependencies.adapter]
+workspace = true
+
+[dev-dependencies.futures]
+version = "0.3.31"
+
+[dev-dependencies.http-body-util]
+version = "0.1.2"
+
+[dev-dependencies.mockall]
+workspace = true
+
+[dev-dependencies.tower]
+version = "0.5.2"
+features = ["util"]
