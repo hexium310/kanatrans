@@ -27,3 +27,6 @@ where
         .nest("/arpabet", arpabet)
         .nest("/katakana", katakana)
 }
+
+#[cfg(test)]
+mod tests;

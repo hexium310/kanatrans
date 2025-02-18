@@ -30,6 +30,14 @@ pub trait KatakanaServiceInterface: Send + Sync + 'static {
     fn get(&self, params: &[&str]) -> impl Future<Output = Result<Katakana, ServiceError>> + Send;
 }
 
+#[cfg(test)]
+mockall::mock! {
+    pub KatakanaServiceInterface {}
+    impl KatakanaServiceInterface for KatakanaServiceInterface {
+        fn get<'a>(&self, params: &[&'a str]) -> impl Future<Output = Result<Katakana, ServiceError>> + Send;
+    }
+}
+
 impl<Processor> KatakanaServiceInterface for KatakanaService<Processor>
 where
     Processor: Transliterator<Target: Into<String>> + Debug + Send + Sync + 'static,
@@ -70,3 +78,6 @@ where
 
     Ok(Json(katakana).into_response())
 }
+
+#[cfg(test)]
+mod tests;

@@ -21,6 +21,7 @@ pub struct ArpabetService<Processor> {
     transcriber: Processor,
 }
 
+#[cfg_attr(test, mockall::automock)]
 pub trait ArpabetServiceInterface: Send + Sync + 'static {
     fn get(&self, word: String) -> impl Future<Output = Result<Arpabet, ServiceError>> + Send;
 }
@@ -64,3 +65,6 @@ where
 
     Ok(Json(arpabet).into_response())
 }
+
+#[cfg(test)]
+mod tests;
