@@ -1,5 +1,10 @@
-use std::{fmt::Debug, future::Future};
+use std::{fmt::Debug, future::Future, sync::Arc};
 
+use axum::{
+    extract::{Query, State},
+    response::{IntoResponse, Response},
+    Json,
+};
 use domain::processor::transliterator::Transliterator;
 use serde::{Deserialize, Serialize};
 
@@ -15,8 +20,22 @@ pub struct KatakanaService<Processor> {
     transliterator: Processor,
 }
 
+#[derive(Debug, Deserialize)]
+pub struct Params {
+    pub word: Option<String>,
+    pub pronunciation: String,
+}
+
 pub trait KatakanaServiceInterface: Send + Sync + 'static {
     fn get(&self, params: &[&str]) -> impl Future<Output = Result<Katakana, ServiceError>> + Send;
+}
+
+#[cfg(test)]
+mockall::mock! {
+    pub KatakanaServiceInterface {}
+    impl KatakanaServiceInterface for KatakanaServiceInterface {
+        fn get<'a>(&self, params: &[&'a str]) -> impl Future<Output = Result<Katakana, ServiceError>> + Send;
+    }
 }
 
 impl<Processor> KatakanaServiceInterface for KatakanaService<Processor>
@@ -45,3 +64,20 @@ impl<Processor> KatakanaService<Processor> {
         Self { transliterator }
     }
 }
+
+pub async fn handle<KatakanaService>(
+    State(katakana_service): State<Arc<KatakanaService>>,
+    Query(params): Query<Params>,
+) -> Result<Response, ServiceError>
+where
+    KatakanaService: KatakanaServiceInterface,
+{
+    let katakana = katakana_service
+        .get(&params.pronunciation.split_whitespace().collect::<Vec<_>>())
+        .await?;
+
+    Ok(Json(katakana).into_response())
+}
+
+#[cfg(test)]
+mod tests;

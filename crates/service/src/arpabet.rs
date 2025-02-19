@@ -1,5 +1,10 @@
-use std::{fmt::Debug, future::Future, ops::Deref};
+use std::{fmt::Debug, future::Future, ops::Deref, sync::Arc};
 
+use axum::{
+    extract::{Path, State},
+    response::{IntoResponse, Response},
+    Json,
+};
 use domain::processor::transcriber::Transcriber;
 use serde::{Deserialize, Serialize};
 
@@ -16,6 +21,7 @@ pub struct ArpabetService<Processor> {
     transcriber: Processor,
 }
 
+#[cfg_attr(test, mockall::automock)]
 pub trait ArpabetServiceInterface: Send + Sync + 'static {
     fn get(&self, word: String) -> impl Future<Output = Result<Arpabet, ServiceError>> + Send;
 }
@@ -47,3 +53,18 @@ impl<Processor> ArpabetService<Processor> {
         Self { transcriber }
     }
 }
+
+pub async fn handle<ArpabetService>(
+    State(arpabet_service): State<Arc<ArpabetService>>,
+    Path(word): Path<String>,
+) -> Result<Response, ServiceError>
+where
+    ArpabetService: ArpabetServiceInterface,
+{
+    let arpabet = arpabet_service.get(word).await?;
+
+    Ok(Json(arpabet).into_response())
+}
+
+#[cfg(test)]
+mod tests;

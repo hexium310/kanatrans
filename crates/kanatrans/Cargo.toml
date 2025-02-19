@@ -10,7 +10,7 @@ default = ["cli", "server"]
 vendored = ["adapter/vendored"]
 
 [dependencies.adapter]
-path = "../adapter"
+workspace = true
 
 [dependencies.clap]
 workspace = true
