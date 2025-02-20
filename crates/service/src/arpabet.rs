@@ -1,9 +1,9 @@
 use std::{fmt::Debug, future::Future, ops::Deref, sync::Arc};
 
 use axum::{
+    Json,
     extract::{Path, State},
     response::{IntoResponse, Response},
-    Json,
 };
 use domain::processor::transcriber::Transcriber;
 use serde::{Deserialize, Serialize};

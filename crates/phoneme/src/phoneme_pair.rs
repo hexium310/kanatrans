@@ -4,7 +4,7 @@ use anyhow::Result;
 
 use crate::{
     assembler::Assembler,
-    consonant::{consonants, ConsonantPattern},
+    consonant::{ConsonantPattern, consonants},
     error::AssemblerError,
     phoneme::Phoneme,
     vowel::vowel::vowels,
@@ -396,7 +396,6 @@ mod tests {
             ])
         );
     }
-
 
     #[test]
     fn heading_er_with_vowel() {

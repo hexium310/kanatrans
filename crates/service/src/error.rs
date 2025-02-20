@@ -22,8 +22,7 @@ pub enum ServiceError {
 
 impl IntoResponse for ServiceError {
     fn into_response(self) -> Response {
-        let details = ProblemDetails::from_status_code(StatusCode::INTERNAL_SERVER_ERROR)
-            .with_detail(self.to_string());
+        let details = ProblemDetails::from_status_code(StatusCode::INTERNAL_SERVER_ERROR).with_detail(self.to_string());
 
         details.into_response()
     }

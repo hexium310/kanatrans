@@ -2,10 +2,10 @@ use std::{collections::HashMap, ops::Deref, sync::LazyLock};
 
 use super::{
     cluster::{
-        cluster::{ConsonantCluster, CLUSTER_MAP},
+        cluster::{CLUSTER_MAP, ConsonantCluster},
         pattern::CONSONANT_CLUSTER_PATTERNS,
     },
-    pattern::{ConsonantPattern, CONSONANT_PATTERNS},
+    pattern::{CONSONANT_PATTERNS, ConsonantPattern},
 };
 
 static CONSONANTS: LazyLock<Consonant> = LazyLock::new(Consonant::default);

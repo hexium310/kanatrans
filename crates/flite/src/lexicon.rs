@@ -2,7 +2,7 @@ use std::{error::Error, ffi::CString, ptr::null, sync::LazyLock};
 
 use flite_sys::{cmu_lex_init, cst_lexicon, delete_lexicon, lex_lookup};
 
-use crate::{lts::Rules, Value};
+use crate::{Value, lts::Rules};
 
 pub struct Lexicon(*mut cst_lexicon);
 
