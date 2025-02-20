@@ -54,6 +54,7 @@ async fn invalid_word() {
         body,
         serde_json::json!({
             "status": 500,
+            "title": "Internal Server Error",
             "detail": "cannot parse \"ワード\" as ARPAbet, caused by: no phonemes in parsed \"ワード\""
         })
     );

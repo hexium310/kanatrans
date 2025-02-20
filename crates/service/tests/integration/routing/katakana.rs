@@ -52,6 +52,7 @@ async fn invalid_pronunciation() {
         body,
         serde_json::json!({
             "status": 500,
+            "title": "Internal Server Error",
             "detail": "cannot convert [\"wer1d\"] to Katakana, caused by: unexpected consonant: wer1d"
         })
     );
