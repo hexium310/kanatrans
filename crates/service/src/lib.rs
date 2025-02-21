@@ -4,6 +4,6 @@ pub mod katakana;
 pub mod routing;
 
 pub use axum::{
-    body::{Body, Bytes},
     Router,
+    body::{Body, Bytes},
 };

@@ -1,7 +1,7 @@
 use adapter::processor::{conversion_table::ConversionTable, lex_lookup::LexLookup};
 use axum::http::{Method, Request, StatusCode};
 use http_body_util::BodyExt;
-use service::{arpabet::ArpabetService, katakana::KatakanaService, routing, Body};
+use service::{Body, arpabet::ArpabetService, katakana::KatakanaService, routing};
 use tower::ServiceExt;
 
 #[tokio::test]

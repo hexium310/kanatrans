@@ -1,6 +1,6 @@
 use crate::cst_lexicon;
 
-extern "C" {
+unsafe extern "C" {
     pub fn cmu_indic_lex_init() -> *mut cst_lexicon;
     pub static mut indic_char: cmu_indic_char;
 }

@@ -1,6 +1,6 @@
 [package]
 name = "kanatrans"
-edition = "2021"
+edition = "2024"
 
 [package.version]
 workspace = true

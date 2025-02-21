@@ -1,6 +1,6 @@
 use crate::{cst_cart, cst_phoneset, cst_utterance, cst_voice, dur_stat};
 
-extern "C" {
+unsafe extern "C" {
     pub fn usenglish_init(v: *mut cst_voice);
     pub fn us_f0_model(u: *mut cst_utterance) -> *mut cst_utterance;
     pub static us_phoneset: cst_phoneset;

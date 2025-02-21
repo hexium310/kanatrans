@@ -1,9 +1,9 @@
 use std::{fmt::Debug, future::Future, sync::Arc};
 
 use axum::{
+    Json,
     extract::{Query, State},
     response::{IntoResponse, Response},
-    Json,
 };
 use domain::processor::transliterator::Transliterator;
 use serde::{Deserialize, Serialize};

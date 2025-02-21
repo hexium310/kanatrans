@@ -5,7 +5,7 @@ use axum::http::Response;
 use service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterface};
 use tokio::{
     net::TcpListener,
-    signal::unix::{signal, SignalKind},
+    signal::unix::{SignalKind, signal},
 };
 use tower_http::trace::TraceLayer;
 use tracing::Span;
@@ -30,8 +30,7 @@ where
         .and_then(|port| port.parse::<u16>().map_err(Error::from))
         .context("KANATRANS_PORT should be set port")?;
 
-    let router = service::routing::router(arpabet_service, katakana_service)
-        .layer(trace_layer);
+    let router = service::routing::router(arpabet_service, katakana_service).layer(trace_layer);
 
     let listener = TcpListener::bind((Ipv6Addr::UNSPECIFIED, port)).await?;
 

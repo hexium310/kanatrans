@@ -1,6 +1,6 @@
 use std::{collections::HashMap, ops::Deref, sync::LazyLock};
 
-use super::pattern::{VowelPattern, VOWEL_BASE, VOWEL_PATTERNS};
+use super::pattern::{VOWEL_BASE, VOWEL_PATTERNS, VowelPattern};
 
 static VOWELS: LazyLock<Vowel> = LazyLock::new(Vowel::default);
 

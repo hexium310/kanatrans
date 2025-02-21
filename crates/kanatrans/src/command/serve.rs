@@ -3,7 +3,7 @@ use std::process::exit;
 use server::router;
 use service::{arpabet::ArpabetServiceInterface, katakana::KatakanaServiceInterface};
 use time::macros::format_description;
-use tracing_subscriber::{fmt::time::UtcTime, EnvFilter};
+use tracing_subscriber::{EnvFilter, fmt::time::UtcTime};
 
 pub(crate) async fn run<ArpabetService, KatakanaService>(
     arpabet_service: ArpabetService,
