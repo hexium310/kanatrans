@@ -21,7 +21,7 @@ version = "0.2.6"
 path = "crates/adapter"
 
 [workspace.dependencies.anyhow]
-version = "1.0.95"
+version = "1.0.96"
 
 [workspace.dependencies.clap]
 version = "4.5.29"
