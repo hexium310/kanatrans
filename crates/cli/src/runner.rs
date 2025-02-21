@@ -5,5 +5,5 @@ pub trait Runner<ArpabetService, KatakanaService> {
         &self,
         arpabet_service: ArpabetService,
         katakana_service: KatakanaService,
-    ) -> impl std::future::Future<Output = Result<()>> + Send;
+    ) -> impl Future<Output = Result<()>> + Send;
 }
