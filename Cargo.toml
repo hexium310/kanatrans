@@ -34,7 +34,7 @@ path = "crates/domain"
 path = "crates/phoneme"
 
 [workspace.dependencies.thiserror]
-version = "2.0.11"
+version = "2.0.12"
 
 [workspace.dependencies.serde]
 version = "1.0.218"
