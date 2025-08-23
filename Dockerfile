@@ -17,14 +17,14 @@ RUN --mount=type=bind,source=crates,target=crates \
     --mount=type=cache,id=api:/usr/local/cargo/registry,target=/usr/local/cargo/registry \
     --mount=type=cache,id=api:/usr/src/target,target=/usr/src/target \
     cargo build --release --no-default-features --features=vendored,server \
-    && cp target/release/kanatrans /usr/local/bin/kanatrans
+    && cp target/release/kanatrans /usr/local/bin/kanatrans \
+    && mkdir -p /kanatrans/lib \
+    && ldd /usr/local/bin/kanatrans | awk '/=>/{ print $3 }' | xargs cp --dereference --target-directory=/kanatrans/lib
 
 FROM scratch AS kanatrans
 LABEL io.github.hexium310.kanatrans.app=kanatrans
 LABEL org.opencontainers.image.source=https://github.com/hexium310/kanatrans
-COPY --from=runtime /lib/x86_64-linux-gnu/libc.so* /lib/x86_64-linux-gnu/
-COPY --from=runtime /lib/x86_64-linux-gnu/libgcc_s.so* /lib/x86_64-linux-gnu/
-COPY --from=runtime /lib/x86_64-linux-gnu/libm.so* /lib/x86_64-linux-gnu/
-COPY --from=runtime /lib64/ld-linux-x86-64.so* /lib64/
-COPY --from=builder /usr/local/bin/kanatrans /usr/local/bin/kanatrans
+COPY --link --from=builder /kanatrans/lib/* /lib/
+COPY --link --from=builder /lib64/ld-linux-x86-64.so* /lib64/
+COPY --link --from=builder /usr/local/bin/kanatrans /usr/local/bin/kanatrans
 ENTRYPOINT ["kanatrans", "--serve"]
