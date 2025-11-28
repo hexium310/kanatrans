@@ -53,7 +53,7 @@ path = "crates/service"
 version = "1.48.0"
 
 [workspace.dependencies.mockall]
-version = "0.13.1"
+version = "0.14.0"
 
 [profile.dev.package."*"]
 debug = false
