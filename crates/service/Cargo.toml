@@ -24,7 +24,7 @@ features = ["axum"]
 workspace = true
 
 [dependencies.serde_json]
-version = "1.0.147"
+version = "1.0.149"
 
 [dependencies.thiserror]
 workspace = true
