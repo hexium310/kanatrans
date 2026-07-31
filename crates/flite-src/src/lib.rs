@@ -52,7 +52,7 @@ impl Build {
 
         let mut configure = Command::new("./configure");
         configure
-            .arg(format!("--prefix={}", &install_dir.to_str().unwrap()))
+            .arg(format!("--prefix={}", install_dir.to_str().unwrap()))
             .arg("--with-audio=none")
             .current_dir(&build_dir);
 
