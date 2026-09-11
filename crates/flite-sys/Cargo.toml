@@ -9,7 +9,7 @@ doctest = false
 vendored = ["flite-src"]
 
 [build-dependencies.bindgen]
-version = "0.72.1"
+version = "0.73.2"
 default-features = false
 features = ["runtime"]
 
