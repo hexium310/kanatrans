@@ -2,18 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
+    "github>hexium310/renovate-config",
     "github>hexium310/renovate-config:labels"
-  ],
-  "dependencyDashboard": false,
-  "timezone": "Asia/Tokyo",
-  "schedule": ["* 0-5 * * 6"],
-  "prConcurrentLimit": 0,
-  "prHourlyLimit": 0,
-  "rangeStrategy": "bump",
-  "labels": ["dependencies"],
-  "commitMessageAction": "Bump",
-  "commitMessageExtra": "from {{currentVersion}} to {{newVersion}}",
-  "commitMessageTopic": "{{#if isGroup}}the {{groupName}} group{{else}}{{depName}}{{/if}}",
-  "commitMessageSuffix": "{{#if isGroup}}with {{upgrades.length}} updates{{/if}}",
-  "minimumReleaseAge": "3 days"
+  ]
 }
