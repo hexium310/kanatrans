@@ -40,7 +40,7 @@ workspace = true
 workspace = true
 
 [dev-dependencies.futures]
-version = "0.3.32"
+version = "0.3.34"
 
 [dev-dependencies.http-body-util]
 version = "0.1.3"
