@@ -85,6 +85,8 @@ fn main() {
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").unwrap());
 
     builder()
+        .allowlist_function("((cmu||val)_.*|delete_(lexicon|val)|lts_apply|lex_lookup)")
+        .allowlist_type("(cst|dur)_.*")
         .generate()
         .unwrap()
         .write_to_file(out_dir.join("bindings.rs"))
