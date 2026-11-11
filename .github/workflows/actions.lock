@@ -3,9 +3,7 @@
 # Docs: https://gh.io/actions-lockfile
 version: 'v0.0.3'
 workflows:
-    '.github/workflows/bump.yml':
-        - 'actions/checkout@v7.0.1'
-        - 'hexium310/workflows@master'
+    '.github/workflows/bump.yml': []
     '.github/workflows/cd.yml':
         - 'actions/checkout@v7.0.1'
         - 'docker/bake-action@v7.5.0'
@@ -18,11 +16,6 @@ workflows:
         - 'sksat/action-clippy@v1.1.1'
         - 'swatinem/rust-cache@v2.9.3'
 dependencies:
-    'actions/checkout@v4':
-        ref: 'v4'
-        commit: 'sha1-11d5960a326750d5838078e36cf38b85af677262'
-        owner_id: 44036562
-        repo_id: 197814629
     'actions/checkout@v7.0.1':
         ref: 'v7.0.1'
         commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
@@ -43,14 +36,6 @@ dependencies:
         commit: 'sha1-f87e5991a6d7451dcb8d9637bfbc97413f497069'
         owner_id: 5429470
         repo_id: 288485773
-    'hexium310/workflows@master':
-        ref: 'master'
-        commit: 'sha1-be862fa79256ba9597191cce1100b6d8b0b423c0'
-        owner_id: 10758173
-        repo_id: 825120184
-        uses:
-            - 'actions/checkout@v4'
-            - 'taiki-e/install-action@v2'
     'sksat/action-clippy@v1.1.1':
         ref: 'v1.1.1'
         commit: 'sha1-87e08e0c289f2654fe702b0aaf88c2f1027a3e57'
@@ -61,8 +46,3 @@ dependencies:
         commit: 'sha1-d1527c8f67ef9af357290475d4af4b0fab8f12e0'
         owner_id: 580492
         repo_id: 298565987
-    'taiki-e/install-action@v2':
-        ref: 'v2'
-        commit: 'sha1-682ce6c3c696a4cd5168a05f98e51aa02b877941'
-        owner_id: 43724913
-        repo_id: 442947557
